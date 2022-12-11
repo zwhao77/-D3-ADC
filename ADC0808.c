@@ -15,13 +15,15 @@ void Init0808()
 	unEN_0808 = 1;
 }
 
-void getVolt()
+uchar getVolt()
 {
+	uchar tmp;
 	unEN_0808 = 0;
 	PBYTE[0xFF] = 0;
 	while (EOC == 1);
-	volt = PBYTE[0xFF];
+	tmp = PBYTE[0xFF];
 	unEN_0808 = 1;
+	return tmp;
 }
 
 /*

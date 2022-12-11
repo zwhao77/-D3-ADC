@@ -436,6 +436,16 @@
               <FileType>5</FileType>
               <FilePath>.\IO8155.h</FilePath>
             </File>
+            <File>
+              <FileName>voltCalc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\voltCalc.h</FilePath>
+            </File>
+            <File>
+              <FileName>voltCalc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\voltCalc.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

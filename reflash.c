@@ -4,7 +4,7 @@
 #include "IO8155.h"
 #include "ADC0808.h"
 #include "DAC0832.h"
-
+#include "voltCalc.h"
 int num;
 
 void reflash()
@@ -29,7 +29,8 @@ void reflash()
 		port = port & 0x0F;
 	}
 	pushPort();
-	getVolt();
+	//volt = getVolt();
+	volt = filtFuns[0]();
 	pushVolt();
 	reflash0832();
 }

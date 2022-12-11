@@ -1,12 +1,13 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/11/2022  21:44:51  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/12/2022  00:05:49  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
 D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\Init.obj, .\Objects\reflash.obj, .\Objects\ADC0808.obj, .\Obje
->> cts\DAC0832.obj, .\Objects\IO8155.obj TO .\Objects\ADC PRINT (.\Listings\ADC.m51) RAMSIZE (256)
+>> cts\DAC0832.obj, .\Objects\IO8155.obj, .\Objects\voltCalc.obj TO .\Objects\ADC PRINT (.\Listings\ADC.m51) RAMSIZE (25
+>> 6)
 
 
-MEMORY MODEL: SMALL
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
 
 
 INPUT MODULES INCLUDED:
@@ -16,8 +17,18 @@ INPUT MODULES INCLUDED:
   .\Objects\ADC0808.obj (ADC0808)
   .\Objects\DAC0832.obj (DAC0832)
   .\Objects\IO8155.obj (IO8155)
+  .\Objects\voltCalc.obj (VOLTCALC)
+  D:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPADD)
+  D:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  D:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FCAST)
+  D:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?CASTF)
+  D:\KEIL_V5\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C?IMUL)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C?LNEG)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C?ICALL)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (ABS)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
 
 
@@ -29,65 +40,130 @@ LINK MAP OF MODULE:  .\Objects\ADC (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     0002H     UNIT         ?DT?INIT
-            DATA    000AH     0002H     UNIT         ?DT?REFLASH
-            DATA    000CH     0002H     UNIT         _DATA_GROUP_
-                    000EH     0012H                  *** GAP ***
+            DATA    0008H     0008H     UNIT         _DATA_GROUP_
+            DATA    0010H     0002H     UNIT         ?DT?INIT
+            DATA    0012H     0002H     UNIT         ?DT?REFLASH
+                    0014H     000CH                  *** GAP ***
             BIT     0020H.0   0000H.1   UNIT         ?BI?INIT
                     0020H.1   0000H.7                *** GAP ***
-            IDATA   0021H     0001H     UNIT         ?STACK
+            DATA    0021H     0031H     UNIT         ?DT?VOLTCALC
+            IDATA   0052H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
-            CODE    008FH     0055H     UNIT         ?C?LIB_CODE
-            CODE    00E4H     0044H     UNIT         ?PR?REFLASH?REFLASH
-            CODE    0128H     001CH     UNIT         ?PR?_DELAY_NMS?MAIN
-            CODE    0144H     0015H     UNIT         ?PR?INIT?INIT
-            CODE    0159H     0015H     UNIT         ?PR?INIT8155?IO8155
-            CODE    016EH     0014H     UNIT         ?PR?MAIN?MAIN
-            CODE    0182H     0012H     UNIT         ?PR?INIT0808?ADC0808
-            CODE    0194H     0011H     UNIT         ?PR?_DELAY_NUS?MAIN
-            CODE    01A5H     0011H     UNIT         ?PR?GETVOLT?ADC0808
-            CODE    01B6H     000CH     UNIT         ?PR?INIT0832?DAC0832
-            CODE    01C2H     000AH     UNIT         ?PR?PUSHVOLT?IO8155
-            CODE    01CCH     000AH     UNIT         ?PR?PUSHPORT?IO8155
-            CODE    01D6H     0009H     UNIT         ?C_INITSEG
-            CODE    01DFH     0009H     UNIT         ?PR?REFLASH0832?DAC0832
+            CODE    0003H     0338H     UNIT         ?C?LIB_CODE
+            CODE    033BH     008CH     UNIT         ?C_C51STARTUP
+            CODE    03C7H     0075H     UNIT         ?PR?WEISLIDFLIT?VOLTCALC
+            CODE    043CH     0071H     UNIT         ?PR?LIMTVGFILT?VOLTCALC
+            CODE    04ADH     0064H     UNIT         ?PR?SLIDEAVGFILT?VOLTCALC
+            CODE    0511H     0064H     UNIT         ?PR?MIDAVGFILT?VOLTCALC
+            CODE    0575H     005DH     UNIT         ?PR?MIDFILT?VOLTCALC
+            CODE    05D2H     004BH     UNIT         ?PR?AVGFILT?VOLTCALC
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 2
+
+
+            CODE    061DH     004BH     UNIT         ?PR?SPEEDFILT?VOLTCALC
+            CODE    0668H     004AH     UNIT         ?PR?REFLASH?REFLASH
+            CODE    06B2H     0049H     UNIT         ?C_INITSEG
+            CODE    06FBH     003AH     UNIT         ?PR?ONLASTFILT?VOLTCALC
+            CODE    0735H     003AH     UNIT         ?PR?DEBAVGFILT?VOLTCALC
+            CODE    076FH     0022H     UNIT         ?PR?AMPLIMTFILT?VOLTCALC
+            CODE    0791H     0020H     UNIT         ?PR?DEBFILT?VOLTCALC
+            CODE    07B1H     001CH     UNIT         ?PR?_DELAY_NMS?MAIN
+            CODE    07CDH     0015H     UNIT         ?PR?INIT?INIT
+            CODE    07E2H     0015H     UNIT         ?PR?INIT8155?IO8155
+            CODE    07F7H     0014H     UNIT         ?PR?MAIN?MAIN
+            CODE    080BH     0012H     UNIT         ?PR?INIT0808?ADC0808
+            CODE    081DH     0011H     UNIT         ?PR?_DELAY_NUS?MAIN
+            CODE    082EH     0010H     UNIT         ?PR?GETVOLT?ADC0808
+            CODE    083EH     000CH     UNIT         ?PR?INIT0832?DAC0832
+            CODE    084AH     000CH     UNIT         ?PR?_ABS?ABS
+            CODE    0856H     000AH     UNIT         ?PR?PUSHVOLT?IO8155
+            CODE    0860H     000AH     UNIT         ?PR?PUSHPORT?IO8155
+            CODE    086AH     0009H     UNIT         ?PR?REFLASH0832?DAC0832
 
 
 
 OVERLAY MAP OF MODULE:   .\Objects\ADC (MAIN)
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 2
 
-
-
-SEGMENT                           DATA_GROUP 
-  +--> CALLED SEGMENT           START    LENGTH
------------------------------------------------
-?C_C51STARTUP                   -----    -----
+SEGMENT                             DATA_GROUP 
+  +--> CALLED SEGMENT             START    LENGTH
+-------------------------------------------------
+?C_C51STARTUP                     -----    -----
   +--> ?PR?MAIN?MAIN
   +--> ?C_INITSEG
 
-?PR?MAIN?MAIN                   000CH    0002H
+?PR?MAIN?MAIN                     0008H    0002H
   +--> ?PR?INIT?INIT
   +--> ?PR?REFLASH?REFLASH
   +--> ?PR?_DELAY_NMS?MAIN
 
-?PR?INIT?INIT                   -----    -----
+?PR?INIT?INIT                     -----    -----
   +--> ?PR?INIT8155?IO8155
   +--> ?PR?INIT0808?ADC0808
   +--> ?PR?INIT0832?DAC0832
 
-?PR?REFLASH?REFLASH             -----    -----
+?PR?REFLASH?REFLASH               -----    -----
   +--> ?PR?PUSHPORT?IO8155
-  +--> ?PR?GETVOLT?ADC0808
   +--> ?PR?PUSHVOLT?IO8155
   +--> ?PR?REFLASH0832?DAC0832
 
-?PR?_DELAY_NMS?MAIN             -----    -----
+?PR?_DELAY_NMS?MAIN               -----    -----
   +--> ?PR?_DELAY_NUS?MAIN
+
+?C_INITSEG                        -----    -----
+  +--> ?PR?AVGFILT?VOLTCALC
+  +--> ?PR?SLIDEAVGFILT?VOLTCALC
+  +--> ?PR?SPEEDFILT?VOLTCALC
+  +--> ?PR?AMPLIMTFILT?VOLTCALC
+  +--> ?PR?MIDFILT?VOLTCALC
+  +--> ?PR?MIDAVGFILT?VOLTCALC
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 3
+
+
+  +--> ?PR?LIMTVGFILT?VOLTCALC
+  +--> ?PR?ONLASTFILT?VOLTCALC
+  +--> ?PR?WEISLIDFLIT?VOLTCALC
+  +--> ?PR?DEBFILT?VOLTCALC
+  +--> ?PR?DEBAVGFILT?VOLTCALC
+
+?PR?AVGFILT?VOLTCALC              0008H    0008H
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?SLIDEAVGFILT?VOLTCALC         0008H    0002H
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?SPEEDFILT?VOLTCALC            0008H    0003H
+  +--> ?PR?GETVOLT?ADC0808
+  +--> ?PR?_ABS?ABS
+
+?PR?AMPLIMTFILT?VOLTCALC          0008H    0001H
+  +--> ?PR?GETVOLT?ADC0808
+  +--> ?PR?_ABS?ABS
+
+?PR?MIDFILT?VOLTCALC              0008H    0007H
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?MIDAVGFILT?VOLTCALC           0008H    0007H
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?LIMTVGFILT?VOLTCALC           0008H    0008H
+  +--> ?PR?_ABS?ABS
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?ONLASTFILT?VOLTCALC           -----    -----
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?WEISLIDFLIT?VOLTCALC          0008H    0002H
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?DEBFILT?VOLTCALC              -----    -----
+  +--> ?PR?GETVOLT?ADC0808
+
+?PR?DEBAVGFILT?VOLTCALC           0008H    0001H
+  +--> ?PR?GETVOLT?ADC0808
+  +--> ?PR?_ABS?ABS
 
 
 
@@ -98,63 +174,63 @@ SYMBOL TABLE OF MODULE:  .\Objects\ADC (MAIN)
 
   -------         MODULE        MAIN
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:016EH         PUBLIC        main
-  C:0128H         PUBLIC        _delay_nms
-  C:0194H         PUBLIC        _delay_nus
+  C:07F7H         PUBLIC        main
+  C:07B1H         PUBLIC        _delay_nms
+  C:081DH         PUBLIC        _delay_nus
   -------         PROC          _DELAY_NUS
   D:0006H         SYMBOL        i
-  C:0194H         LINE#         1
-  C:0194H         LINE#         2
-  C:0194H         LINE#         3
-  C:019BH         LINE#         4
-  C:01A4H         LINE#         5
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 4
+
+
+  C:081DH         LINE#         1
+  C:081DH         LINE#         2
+  C:081DH         LINE#         3
+  C:0824H         LINE#         4
+  C:082DH         LINE#         5
   -------         ENDPROC       _DELAY_NUS
   -------         PROC          _DELAY_NMS
   D:0002H         SYMBOL        n
-  C:0128H         LINE#         7
-  C:012CH         LINE#         8
-  C:012CH         LINE#         9
-  C:0131H         LINE#         10
-  C:013AH         LINE#         11
-  C:0143H         LINE#         12
+  C:07B1H         LINE#         7
+  C:07B5H         LINE#         8
+  C:07B5H         LINE#         9
+  C:07BAH         LINE#         10
+  C:07C3H         LINE#         11
+  C:07CCH         LINE#         12
   -------         ENDPROC       _DELAY_NMS
   -------         PROC          MAIN
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 3
-
-
   -------         DO            
-  D:000CH         SYMBOL        num
+  D:0008H         SYMBOL        num
   -------         ENDDO         
-  C:016EH         LINE#         6
-  C:016EH         LINE#         7
-  C:016EH         LINE#         8
-  C:0173H         LINE#         9
-  C:0176H         LINE#         10
-  C:0176H         LINE#         11
-  C:0176H         LINE#         12
-  C:0179H         LINE#         13
-  C:0180H         LINE#         14
+  C:07F7H         LINE#         6
+  C:07F7H         LINE#         7
+  C:07F7H         LINE#         8
+  C:07FCH         LINE#         9
+  C:07FFH         LINE#         10
+  C:07FFH         LINE#         11
+  C:07FFH         LINE#         12
+  C:0802H         LINE#         13
+  C:0809H         LINE#         14
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
   -------         MODULE        INIT
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0090H         PUBLIC        P1
-  C:0144H         PUBLIC        Init
+  C:07CDH         PUBLIC        Init
   B:00A0H.5       PUBLIC        P2_5
   B:0020H.0       PUBLIC        flagAuto
-  D:0008H         PUBLIC        volt
-  D:0009H         PUBLIC        port
+  D:0010H         PUBLIC        volt
+  D:0011H         PUBLIC        port
   -------         PROC          INIT
-  C:0144H         LINE#         15
-  C:0144H         LINE#         16
-  C:0144H         LINE#         17
-  C:0147H         LINE#         18
-  C:014AH         LINE#         19
-  C:014CH         LINE#         20
-  C:0150H         LINE#         21
-  C:0153H         LINE#         22
-  C:0156H         LINE#         23
+  C:07CDH         LINE#         15
+  C:07CDH         LINE#         16
+  C:07CDH         LINE#         17
+  C:07D0H         LINE#         18
+  C:07D3H         LINE#         19
+  C:07D5H         LINE#         20
+  C:07D9H         LINE#         21
+  C:07DCH         LINE#         22
+  C:07DFH         LINE#         23
   -------         ENDPROC       INIT
   -------         ENDMOD        INIT
 
@@ -162,36 +238,36 @@ SYMBOL TABLE OF MODULE:  .\Objects\ADC (MAIN)
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0090H         PUBLIC        P1
   B:00A0H.5       PUBLIC        P2_5
-  D:000AH         PUBLIC        num
-  C:00E4H         PUBLIC        reflash
+  D:0012H         PUBLIC        num
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 5
+
+
+  C:0668H         PUBLIC        reflash
   -------         PROC          REFLASH
-  C:00E4H         LINE#         10
-  C:00E4H         LINE#         11
-  C:00E4H         LINE#         12
-  C:00E7H         LINE#         13
-  C:00E7H         LINE#         14
-  C:00EFH         LINE#         15
-  C:00FAH         LINE#         16
-  C:00FAH         LINE#         17
-  C:00FFH         LINE#         18
-  C:0101H         LINE#         19
-  C:010CH         LINE#         20
-  C:010CH         LINE#         21
-  C:010FH         LINE#         22
-  C:010FH         LINE#         23
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 4
-
-
-  C:010FH         LINE#         24
-  C:0111H         LINE#         26
-  C:0111H         LINE#         27
-  C:0116H         LINE#         28
-  C:0119H         LINE#         29
-  C:011CH         LINE#         30
-  C:011CH         LINE#         31
-  C:011FH         LINE#         32
-  C:0122H         LINE#         33
-  C:0125H         LINE#         34
+  C:0668H         LINE#         10
+  C:0668H         LINE#         11
+  C:0668H         LINE#         12
+  C:066BH         LINE#         13
+  C:066BH         LINE#         14
+  C:0673H         LINE#         15
+  C:067EH         LINE#         16
+  C:067EH         LINE#         17
+  C:0683H         LINE#         18
+  C:0685H         LINE#         19
+  C:0690H         LINE#         20
+  C:0690H         LINE#         21
+  C:0693H         LINE#         22
+  C:0693H         LINE#         23
+  C:0693H         LINE#         24
+  C:0695H         LINE#         26
+  C:0695H         LINE#         27
+  C:069AH         LINE#         28
+  C:069DH         LINE#         29
+  C:06A0H         LINE#         30
+  C:06A0H         LINE#         31
+  C:06A3H         LINE#         33
+  C:06ACH         LINE#         34
+  C:06AFH         LINE#         35
   -------         ENDPROC       REFLASH
   -------         ENDMOD        REFLASH
 
@@ -201,28 +277,35 @@ SYMBOL TABLE OF MODULE:  .\Objects\ADC (MAIN)
   B:00A8H.7       PUBLIC        EA
   B:00B0H.0       PUBLIC        P3_0
   B:00A0H.7       PUBLIC        P2_7
-  C:0182H         PUBLIC        Init0808
-  C:01A5H         PUBLIC        getVolt
+  C:080BH         PUBLIC        Init0808
+  C:082EH         PUBLIC        getVolt
   -------         PROC          INIT0808
-  C:0182H         LINE#         6
-  C:0182H         LINE#         7
-  C:0182H         LINE#         8
-  C:0184H         LINE#         9
-  C:0186H         LINE#         11
-  C:0189H         LINE#         12
-  C:018CH         LINE#         13
-  C:0191H         LINE#         15
-  C:0193H         LINE#         16
+  C:080BH         LINE#         6
+  C:080BH         LINE#         7
+  C:080BH         LINE#         8
+  C:080DH         LINE#         9
+  C:080FH         LINE#         11
+  C:0812H         LINE#         12
+  C:0815H         LINE#         13
+  C:081AH         LINE#         15
+  C:081CH         LINE#         16
   -------         ENDPROC       INIT0808
   -------         PROC          GETVOLT
-  C:01A5H         LINE#         18
-  C:01A5H         LINE#         19
-  C:01A5H         LINE#         20
-  C:01A7H         LINE#         21
-  C:01ABH         LINE#         22
-  C:01AEH         LINE#         23
-  C:01B3H         LINE#         24
-  C:01B5H         LINE#         25
+  -------         DO            
+  D:0007H         SYMBOL        tmp
+  -------         ENDDO         
+  C:082EH         LINE#         18
+  C:082EH         LINE#         19
+  C:082EH         LINE#         21
+  C:0830H         LINE#         22
+  C:0834H         LINE#         23
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 6
+
+
+  C:0837H         LINE#         24
+  C:083BH         LINE#         25
+  C:083DH         LINE#         26
+  C:083DH         LINE#         27
   -------         ENDPROC       GETVOLT
   -------         ENDMOD        ADC0808
 
@@ -230,27 +313,24 @@ SYMBOL TABLE OF MODULE:  .\Objects\ADC (MAIN)
   C:0000H         SYMBOL        _ICE_DUMMY_
   B:00A0H.3       PUBLIC        P2_3
   B:00A0H.4       PUBLIC        P2_4
-  C:01DFH         PUBLIC        reflash0832
-  C:01B6H         PUBLIC        Init0832
+  C:086AH         PUBLIC        reflash0832
+  C:083EH         PUBLIC        Init0832
   -------         PROC          INIT0832
-  C:01B6H         LINE#         6
-  C:01B6H         LINE#         7
-  C:01B6H         LINE#         8
-  C:01B8H         LINE#         9
-  C:01BAH         LINE#         10
-  C:01BFH         LINE#         11
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 5
-
-
-  C:01C1H         LINE#         12
+  C:083EH         LINE#         6
+  C:083EH         LINE#         7
+  C:083EH         LINE#         8
+  C:0840H         LINE#         9
+  C:0842H         LINE#         10
+  C:0847H         LINE#         11
+  C:0849H         LINE#         12
   -------         ENDPROC       INIT0832
   -------         PROC          REFLASH0832
-  C:01DFH         LINE#         14
-  C:01DFH         LINE#         15
-  C:01DFH         LINE#         16
-  C:01E1H         LINE#         17
-  C:01E5H         LINE#         18
-  C:01E7H         LINE#         19
+  C:086AH         LINE#         14
+  C:086AH         LINE#         15
+  C:086AH         LINE#         16
+  C:086CH         LINE#         17
+  C:0870H         LINE#         18
+  C:0872H         LINE#         19
   -------         ENDPROC       REFLASH0832
   -------         ENDMOD        DAC0832
 
@@ -258,41 +338,372 @@ SYMBOL TABLE OF MODULE:  .\Objects\ADC (MAIN)
   C:0000H         SYMBOL        _ICE_DUMMY_
   B:00A0H.0       PUBLIC        P2_0
   B:00A0H.1       PUBLIC        P2_1
-  C:01CCH         PUBLIC        pushPort
-  C:01C2H         PUBLIC        pushVolt
-  C:0159H         PUBLIC        Init8155
+  C:0860H         PUBLIC        pushPort
+  C:0856H         PUBLIC        pushVolt
+  C:07E2H         PUBLIC        Init8155
   -------         PROC          INIT8155
-  C:0159H         LINE#         5
-  C:0159H         LINE#         6
-  C:0159H         LINE#         7
-  C:015BH         LINE#         8
-  C:015DH         LINE#         9
-  C:0162H         LINE#         10
-  C:0166H         LINE#         11
-  C:016BH         LINE#         12
-  C:016DH         LINE#         13
+  C:07E2H         LINE#         5
+  C:07E2H         LINE#         6
+  C:07E2H         LINE#         7
+  C:07E4H         LINE#         8
+  C:07E6H         LINE#         9
+  C:07EBH         LINE#         10
+  C:07EFH         LINE#         11
+  C:07F4H         LINE#         12
+  C:07F6H         LINE#         13
   -------         ENDPROC       INIT8155
   -------         PROC          PUSHVOLT
-  C:01C2H         LINE#         15
-  C:01C2H         LINE#         16
-  C:01C2H         LINE#         17
-  C:01C4H         LINE#         18
-  C:01C9H         LINE#         19
-  C:01CBH         LINE#         20
+  C:0856H         LINE#         15
+  C:0856H         LINE#         16
+  C:0856H         LINE#         17
+  C:0858H         LINE#         18
+  C:085DH         LINE#         19
+  C:085FH         LINE#         20
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 7
+
+
   -------         ENDPROC       PUSHVOLT
   -------         PROC          PUSHPORT
-  C:01CCH         LINE#         22
-  C:01CCH         LINE#         23
-  C:01CCH         LINE#         24
-  C:01CEH         LINE#         25
-  C:01D3H         LINE#         26
-  C:01D5H         LINE#         27
+  C:0860H         LINE#         22
+  C:0860H         LINE#         23
+  C:0860H         LINE#         24
+  C:0862H         LINE#         25
+  C:0867H         LINE#         26
+  C:0869H         LINE#         27
   -------         ENDPROC       PUSHPORT
   -------         ENDMOD        IO8155
 
+  -------         MODULE        VOLTCALC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0735H         PUBLIC        debavgFilt
+  C:03C7H         PUBLIC        weislidFlit
+  C:076FH         PUBLIC        amplimtFilt
+  C:0511H         PUBLIC        midavgFilt
+  C:061DH         PUBLIC        speedFilt
+  C:06FBH         PUBLIC        onlastFilt
+  C:043CH         PUBLIC        limtvgFilt
+  C:0791H         PUBLIC        debFilt
+  C:0575H         PUBLIC        midFilt
+  D:0031H         PUBLIC        filtFuns
+  C:05D2H         PUBLIC        avgFilt
+  C:04ADH         PUBLIC        slideavgFilt
+  -------         PROC          AVGFILT
+  -------         DO            
+  D:0008H         SYMBOL        V
+  D:000DH         SYMBOL        num
+  D:000FH         SYMBOL        i
+  -------         ENDDO         
+  C:05D2H         LINE#         14
+  C:05D2H         LINE#         15
+  C:05D2H         LINE#         17
+  C:05D7H         LINE#         18
+  C:05D9H         LINE#         19
+  C:05E6H         LINE#         20
+  C:05E6H         LINE#         21
+  C:05F0H         LINE#         22
+  C:05F4H         LINE#         23
+  C:0602H         LINE#         24
+  C:0602H         LINE#         25
+  C:0611H         LINE#         26
+  C:0615H         LINE#         27
+  C:061CH         LINE#         28
+  -------         ENDPROC       AVGFILT
+  -------         PROC          SLIDEAVGFILT
+  -------         DO            
+  D:0021H         SYMBOL        V
+  D:0026H         SYMBOL        tmpPort
+  D:0007H         SYMBOL        i
+  D:0008H         SYMBOL        num
+  -------         ENDDO         
+  C:04ADH         LINE#         31
+  C:04ADH         LINE#         32
+  C:04ADH         LINE#         35
+  C:04AFH         LINE#         37
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 8
+
+
+  C:04B9H         LINE#         38
+  C:04B9H         LINE#         39
+  C:04C3H         LINE#         40
+  C:04C3H         LINE#         41
+  C:04C9H         LINE#         42
+  C:04CCH         LINE#         43
+  C:04CCH         LINE#         44
+  C:04D8H         LINE#         45
+  C:04D8H         LINE#         46
+  C:04E4H         LINE#         47
+  C:04E7H         LINE#         48
+  C:04ECH         LINE#         49
+  C:04F8H         LINE#         50
+  C:04F8H         LINE#         51
+  C:0506H         LINE#         52
+  C:0509H         LINE#         53
+  C:0510H         LINE#         54
+  -------         ENDPROC       SLIDEAVGFILT
+  -------         PROC          SPEEDFILT
+  -------         DO            
+  D:0008H         SYMBOL        V
+  -------         ENDDO         
+  C:061DH         LINE#         57
+  C:061DH         LINE#         58
+  C:061DH         LINE#         60
+  C:0622H         LINE#         61
+  C:0627H         LINE#         62
+  C:063EH         LINE#         63
+  C:063EH         LINE#         64
+  C:0641H         LINE#         65
+  C:0641H         LINE#         67
+  C:0641H         LINE#         68
+  C:0646H         LINE#         69
+  C:065DH         LINE#         70
+  C:065DH         LINE#         71
+  C:0660H         LINE#         72
+  C:0660H         LINE#         74
+  C:0660H         LINE#         75
+  C:0667H         LINE#         76
+  C:0667H         LINE#         77
+  C:0667H         LINE#         78
+  -------         ENDPROC       SPEEDFILT
+  -------         PROC          AMPLIMTFILT
+  -------         DO            
+  D:0008H         SYMBOL        tmp
+  -------         ENDDO         
+  C:076FH         LINE#         81
+  C:076FH         LINE#         82
+  C:076FH         LINE#         83
+  C:0774H         LINE#         84
+  C:078BH         LINE#         85
+  C:078BH         LINE#         86
+  C:078EH         LINE#         87
+  C:078EH         LINE#         89
+  C:078EH         LINE#         90
+  C:0790H         LINE#         91
+  C:0790H         LINE#         92
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 9
+
+
+  -------         ENDPROC       AMPLIMTFILT
+  -------         PROC          MIDFILT
+  -------         DO            
+  D:0008H         SYMBOL        V
+  D:000DH         SYMBOL        i
+  D:0007H         SYMBOL        j
+  D:000EH         SYMBOL        tmp
+  -------         ENDDO         
+  C:0575H         LINE#         95
+  C:0575H         LINE#         96
+  C:0575H         LINE#         99
+  C:0578H         LINE#         100
+  C:0585H         LINE#         101
+  C:0585H         LINE#         102
+  C:058FH         LINE#         103
+  C:0593H         LINE#         104
+  C:05A1H         LINE#         105
+  C:05A1H         LINE#         106
+  C:05A9H         LINE#         107
+  C:05A9H         LINE#         108
+  C:05B9H         LINE#         109
+  C:05B9H         LINE#         110
+  C:05BBH         LINE#         111
+  C:05C1H         LINE#         112
+  C:05C7H         LINE#         113
+  C:05C7H         LINE#         114
+  C:05CBH         LINE#         115
+  C:05CFH         LINE#         116
+  C:05D1H         LINE#         117
+  -------         ENDPROC       MIDFILT
+  -------         PROC          MIDAVGFILT
+  -------         DO            
+  D:0008H         SYMBOL        V
+  D:000DH         SYMBOL        i
+  D:0007H         SYMBOL        j
+  D:000EH         SYMBOL        tmp
+  -------         ENDDO         
+  C:0511H         LINE#         120
+  C:0511H         LINE#         121
+  C:0511H         LINE#         124
+  C:0514H         LINE#         125
+  C:0521H         LINE#         126
+  C:0521H         LINE#         127
+  C:052BH         LINE#         128
+  C:052FH         LINE#         129
+  C:053DH         LINE#         130
+  C:053DH         LINE#         131
+  C:0545H         LINE#         132
+  C:0545H         LINE#         133
+  C:0555H         LINE#         134
+  C:0555H         LINE#         135
+  C:0557H         LINE#         136
+  C:055DH         LINE#         137
+  C:0563H         LINE#         138
+  C:0563H         LINE#         139
+  C:0567H         LINE#         140
+  C:056BH         LINE#         141
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 10
+
+
+  C:0574H         LINE#         142
+  -------         ENDPROC       MIDAVGFILT
+  -------         PROC          LIMTVGFILT
+  -------         DO            
+  D:0008H         SYMBOL        V
+  D:000DH         SYMBOL        i
+  D:000EH         SYMBOL        tmp
+  D:000FH         SYMBOL        num
+  -------         ENDDO         
+  C:043CH         LINE#         145
+  C:043CH         LINE#         146
+  C:043CH         LINE#         149
+  C:043FH         LINE#         151
+  C:0442H         LINE#         152
+  C:0445H         LINE#         153
+  C:0450H         LINE#         154
+  C:0450H         LINE#         155
+  C:0472H         LINE#         156
+  C:0472H         LINE#         157
+  C:0475H         LINE#         158
+  C:0477H         LINE#         160
+  C:0477H         LINE#         161
+  C:0485H         LINE#         162
+  C:0485H         LINE#         163
+  C:0487H         LINE#         164
+  C:0489H         LINE#         165
+  C:0497H         LINE#         166
+  C:0497H         LINE#         167
+  C:04A1H         LINE#         168
+  C:04A5H         LINE#         169
+  C:04ACH         LINE#         170
+  -------         ENDPROC       LIMTVGFILT
+  -------         PROC          ONLASTFILT
+  C:06FBH         LINE#         173
+  C:06FBH         LINE#         174
+  C:06FBH         LINE#         175
+  -------         ENDPROC       ONLASTFILT
+  -------         PROC          WEISLIDFLIT
+  -------         DO            
+  D:0028H         SYMBOL        V
+  D:002DH         SYMBOL        tmpPort
+  D:0003H         SYMBOL        i
+  D:0008H         SYMBOL        num
+  -------         ENDDO         
+  C:03C7H         LINE#         179
+  C:03C7H         LINE#         180
+  C:03C7H         LINE#         183
+  C:03C9H         LINE#         185
+  C:03D3H         LINE#         186
+  C:03D3H         LINE#         187
+  C:03DDH         LINE#         188
+  C:03DDH         LINE#         189
+  C:03E3H         LINE#         190
+  C:03E6H         LINE#         191
+  C:03E6H         LINE#         192
+  C:03F2H         LINE#         193
+  C:03F2H         LINE#         194
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 11
+
+
+  C:03FEH         LINE#         195
+  C:0401H         LINE#         196
+  C:0406H         LINE#         197
+  C:0415H         LINE#         198
+  C:0415H         LINE#         199
+  C:0431H         LINE#         200
+  C:0434H         LINE#         201
+  C:043BH         LINE#         202
+  -------         ENDPROC       WEISLIDFLIT
+  -------         PROC          DEBFILT
+  -------         DO            
+  D:002FH         SYMBOL        i
+  -------         ENDDO         
+  C:0791H         LINE#         205
+  C:0791H         LINE#         206
+  C:0791H         LINE#         208
+  C:0799H         LINE#         209
+  C:0799H         LINE#         210
+  C:079CH         LINE#         211
+  C:079EH         LINE#         213
+  C:079EH         LINE#         214
+  C:07A0H         LINE#         215
+  C:07A0H         LINE#         216
+  C:07ABH         LINE#         217
+  C:07ABH         LINE#         218
+  C:07AEH         LINE#         219
+  C:07AEH         LINE#         221
+  C:07AEH         LINE#         222
+  C:07B0H         LINE#         223
+  C:07B0H         LINE#         224
+  -------         ENDPROC       DEBFILT
+  -------         PROC          DEBAVGFILT
+  -------         DO            
+  D:0030H         SYMBOL        i
+  D:0008H         SYMBOL        tmp
+  -------         ENDDO         
+  C:0735H         LINE#         226
+  C:0735H         LINE#         227
+  C:0735H         LINE#         229
+  C:073AH         LINE#         230
+  C:073FH         LINE#         231
+  C:073FH         LINE#         232
+  C:0742H         LINE#         233
+  C:0744H         LINE#         235
+  C:0744H         LINE#         236
+  C:075CH         LINE#         237
+  C:075CH         LINE#         238
+  C:075EH         LINE#         239
+  C:075EH         LINE#         240
+  C:075EH         LINE#         241
+  C:0769H         LINE#         242
+  C:0769H         LINE#         243
+  C:076CH         LINE#         244
+  C:076CH         LINE#         246
+  C:076CH         LINE#         247
+  C:076EH         LINE#         248
+  C:076EH         LINE#         249
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  00:05:49  PAGE 12
+
+
+  -------         ENDPROC       DEBAVGFILT
+  -------         ENDMOD        VOLTCALC
+
+  -------         MODULE        ?C?FPADD
+  C:000AH         PUBLIC        ?C?FPADD
+  C:0006H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+  C:00FBH         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FCAST
+  C:020BH         PUBLIC        ?C?FCASTC
+  C:0206H         PUBLIC        ?C?FCASTI
+  C:0201H         PUBLIC        ?C?FCASTL
+  -------         ENDMOD        ?C?FCAST
+
+  -------         MODULE        ?C?CASTF
+  C:023FH         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        ?C?IMUL
+  C:02C0H         PUBLIC        ?C?IMUL
+  -------         ENDMOD        ?C?IMUL
+
   -------         MODULE        ?C?UIDIV
-  C:008FH         PUBLIC        ?C?UIDIV
+  C:02D2H         PUBLIC        ?C?UIDIV
   -------         ENDMOD        ?C?UIDIV
 
-Program Size: data=15.1 xdata=0 code=488
+  -------         MODULE        ?C?LNEG
+  C:0327H         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+  -------         MODULE        ?C?ICALL
+  C:0335H         PUBLIC        ?C?ICALL
+  C:0339H         PUBLIC        ?C?ICALL2
+  -------         ENDMOD        ?C?ICALL
+
+  -------         MODULE        ABS
+  C:084AH         PUBLIC        _ABS
+  -------         ENDMOD        ABS
+
+Program Size: data=70.1 xdata=0 code=2163
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

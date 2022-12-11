@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   ADC0808                                                           12/11/2022 21:44:51 PAGE 1   
+C51 COMPILER V9.60.0.0   ADC0808                                                           12/12/2022 00:05:48 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ADC0808
@@ -25,29 +25,31 @@ line level    source
   15   1        unEN_0808 = 1;
   16   1      }
   17          
-  18          void getVolt()
+  18          uchar getVolt()
   19          {
-  20   1        unEN_0808 = 0;
-  21   1        PBYTE[0xFF] = 0;
-  22   1        while (EOC == 1);
-  23   1        volt = PBYTE[0xFF];
-  24   1        unEN_0808 = 1;
-  25   1      }
-  26          
-  27          /*
-  28          void getVolt() interrupt 4
-  29          {
-  30            EA = 0;
-  31            volt = P0;
-  32            ioA = volt;
-  33            RI = 0;
-  34            EA = 1;
-  35          }
-  36          */
+  20   1        uchar tmp;
+  21   1        unEN_0808 = 0;
+  22   1        PBYTE[0xFF] = 0;
+  23   1        while (EOC == 1);
+  24   1        tmp = PBYTE[0xFF];
+  25   1        unEN_0808 = 1;
+  26   1        return tmp;
+  27   1      }
+  28          
+  29          /*
+  30          void getVolt() interrupt 4
+  31          {
+  32            EA = 0;
+  33            volt = P0;
+  34            ioA = volt;
+  35            RI = 0;
+  36            EA = 1;
+  37          }
+  38          */
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     35    ----
+   CODE SIZE        =     34    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
