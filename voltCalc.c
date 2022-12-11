@@ -24,7 +24,7 @@ uchar avgFilt()
     {
         num += V[i];
     }
-    return (uchar)num / 5;
+    return (num/5);
 }
 
 // 滑动平均滤波

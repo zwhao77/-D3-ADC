@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 00:05:48 PAGE 1   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 00:37:33 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE REFLASH
@@ -16,9 +16,9 @@ line level    source
    6          #include "DAC0832.h"
    7          #include "voltCalc.h"
    8          int num;
-   9          
-  10          void reflash()
-  11          {
+   9          void reflash()
+  10          {
+  11   1        //若为自动模式，则读取50次数据进行一次通道切换
   12   1        if (flagAuto == 1)
   13   1        {
   14   2          num++;
@@ -38,12 +38,13 @@ line level    source
   28   2          port = P1;
   29   2          port = port & 0x0F;
   30   2        }
-  31   1        pushPort();
-  32   1        //volt = getVolt();
-  33   1        volt = filtFuns[0]();
-  34   1        pushVolt();
-  35   1        reflash0832();
-  36   1      }
+  31   1        //数据刷新
+  32   1        pushPort();
+  33   1        //volt = getVolt();
+  34   1        volt = filtFuns[7]();
+  35   1        pushVolt();
+  36   1        reflash0832();
+  37   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

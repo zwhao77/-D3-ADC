@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:05:49 PAGE 1   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:37:34 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE VOLTCALC
@@ -34,7 +34,7 @@ line level    source
   24   1          {
   25   2              num += V[i];
   26   2          }
-  27   1          return (uchar)num / 5;
+  27   1          return (num/5);
   28   1      }
   29          
   30          // 滑动平均滤波
@@ -62,7 +62,7 @@ line level    source
   52   2          }
   53   1          return ((uchar)num / 5);
   54   1      }
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:05:49 PAGE 2   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:37:34 PAGE 2   
 
   55          
   56          // 限速滤波
@@ -126,7 +126,7 @@ line level    source
  114   3              }
  115   2          }
  116   1          return V[2];
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:05:49 PAGE 3   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:37:34 PAGE 3   
 
  117   1      }
  118          
@@ -190,7 +190,7 @@ line level    source
  176   1      }
  177          
  178          //加权递推
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:05:49 PAGE 4   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:37:34 PAGE 4   
 
  179          uchar weislidFlit()
  180          {
@@ -254,7 +254,7 @@ line level    source
  238   3                  i++;
  239   3              }
  240   2          }
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:05:49 PAGE 5   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 00:37:34 PAGE 5   
 
  241   1          if (i > maxDeb)
  242   1          {
@@ -283,7 +283,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    855    ----
+   CODE SIZE        =    858    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

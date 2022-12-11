@@ -6,9 +6,9 @@
 #include "DAC0832.h"
 #include "voltCalc.h"
 int num;
-
 void reflash()
 {
+	//若为自动模式，则读取50次数据进行一次通道切换
 	if (flagAuto == 1)
 	{
 		num++;
@@ -28,9 +28,10 @@ void reflash()
 		port = P1;
 		port = port & 0x0F;
 	}
+	//数据刷新
 	pushPort();
 	//volt = getVolt();
-	volt = filtFuns[0]();
+	volt = filtFuns[7]();
 	pushVolt();
 	reflash0832();
 }
