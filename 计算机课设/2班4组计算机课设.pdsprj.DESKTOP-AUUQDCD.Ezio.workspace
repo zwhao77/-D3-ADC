@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <WORKSPACE>
  <FRAME activewindow="0">
-  <PLACEMENT>2c00000002000000010000000083ffff0083ffffffffffffffffffff46fdffffa40000006203000092040000</PLACEMENT>
+  <PLACEMENT>2c00000000000000020000000083ffff0083ffffffffffffffffffff53000000000000006f060000ee030000</PLACEMENT>
   <WINDOW type="default" module="ARES"/>
  </FRAME>
  <FRAME activewindow="0">
-  <PLACEMENT>2c0000000200000003000000ffffffffffffffffffffffffffffffff00000000000000001c060000ee030000</PLACEMENT>
+  <PLACEMENT>2c00000002000000030000000083ffff0083ffffffffffffffffffff00000000000000001c060000ee030000</PLACEMENT>
   <WINDOW type="default" module="ISIS"/>
  </FRAME>
  <MODULE name="VSMDEBUG">
@@ -36,7 +36,7 @@
      <ITEM name="nItems">0</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="695" x="0" flags="00008001" y="395" h="459" pid="0" iid="54">
+   <POPUP w="695" x="898" flags="00008001" y="230" h="459" pid="0" iid="54">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="210" x="108" flags="00000008" y="220" h="268" pid="1" iid="1">

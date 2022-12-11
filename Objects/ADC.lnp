@@ -1,5 +1,8 @@
 ".\Objects\main.obj",
 ".\Objects\Init.obj",
-".\Objects\reflash.obj" 
+".\Objects\reflash.obj",
+".\Objects\ADC0808.obj",
+".\Objects\DAC0832.obj",
+".\Objects\IO8155.obj" 
 TO ".\Objects\ADC" 
 PRINT(".\Listings\ADC.m51") RAMSIZE(256) 

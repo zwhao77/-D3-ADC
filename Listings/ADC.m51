@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/11/2022  20:38:38  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/11/2022  21:44:51  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
-D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\Init.obj, .\Objects\reflash.obj TO .\Objects\ADC PRINT (.\List
->> ings\ADC.m51) RAMSIZE (256)
+D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\main.obj, .\Objects\Init.obj, .\Objects\reflash.obj, .\Objects\ADC0808.obj, .\Obje
+>> cts\DAC0832.obj, .\Objects\IO8155.obj TO .\Objects\ADC PRINT (.\Listings\ADC.m51) RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL
@@ -13,6 +13,9 @@ INPUT MODULES INCLUDED:
   .\Objects\main.obj (MAIN)
   .\Objects\Init.obj (INIT)
   .\Objects\reflash.obj (REFLASH)
+  .\Objects\ADC0808.obj (ADC0808)
+  .\Objects\DAC0832.obj (DAC0832)
+  .\Objects\IO8155.obj (IO8155)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
@@ -27,55 +30,63 @@ LINK MAP OF MODULE:  .\Objects\ADC (MAIN)
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
             DATA    0008H     0002H     UNIT         ?DT?INIT
-            DATA    000AH     0002H     UNIT         _DATA_GROUP_
-                    000CH     0014H                  *** GAP ***
+            DATA    000AH     0002H     UNIT         ?DT?REFLASH
+            DATA    000CH     0002H     UNIT         _DATA_GROUP_
+                    000EH     0012H                  *** GAP ***
             BIT     0020H.0   0000H.1   UNIT         ?BI?INIT
                     0020H.1   0000H.7                *** GAP ***
             IDATA   0021H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     001EH     UNIT         ?PR?GETVOLT?INIT
-                    0021H     0002H                  *** GAP ***
-            CODE    0023H     0003H     ABSOLUTE     
-            CODE    0026H     008CH     UNIT         ?C_C51STARTUP
-            CODE    00B2H     0055H     UNIT         ?C?LIB_CODE
-            CODE    0107H     0052H     UNIT         ?PR?MAIN?MAIN
-            CODE    0159H     0024H     UNIT         ?PR?REFLASH?REFLASH
-            CODE    017DH     001CH     UNIT         ?PR?_DELAY_NMS?MAIN
-            CODE    0199H     0015H     UNIT         ?PR?INIT8155?INIT
-            CODE    01AEH     0015H     UNIT         ?PR?INIT?INIT
-            CODE    01C3H     0012H     UNIT         ?PR?INIT0808?INIT
-            CODE    01D5H     0011H     UNIT         ?PR?_DELAY_NUS?MAIN
-            CODE    01E6H     000CH     UNIT         ?PR?INIT0832?INIT
-            CODE    01F2H     0009H     UNIT         ?C_INITSEG
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0055H     UNIT         ?C?LIB_CODE
+            CODE    00E4H     0044H     UNIT         ?PR?REFLASH?REFLASH
+            CODE    0128H     001CH     UNIT         ?PR?_DELAY_NMS?MAIN
+            CODE    0144H     0015H     UNIT         ?PR?INIT?INIT
+            CODE    0159H     0015H     UNIT         ?PR?INIT8155?IO8155
+            CODE    016EH     0014H     UNIT         ?PR?MAIN?MAIN
+            CODE    0182H     0012H     UNIT         ?PR?INIT0808?ADC0808
+            CODE    0194H     0011H     UNIT         ?PR?_DELAY_NUS?MAIN
+            CODE    01A5H     0011H     UNIT         ?PR?GETVOLT?ADC0808
+            CODE    01B6H     000CH     UNIT         ?PR?INIT0832?DAC0832
+            CODE    01C2H     000AH     UNIT         ?PR?PUSHVOLT?IO8155
+            CODE    01CCH     000AH     UNIT         ?PR?PUSHPORT?IO8155
+            CODE    01D6H     0009H     UNIT         ?C_INITSEG
+            CODE    01DFH     0009H     UNIT         ?PR?REFLASH0832?DAC0832
 
 
 
 OVERLAY MAP OF MODULE:   .\Objects\ADC (MAIN)
 
-
-SEGMENT                          DATA_GROUP 
-  +--> CALLED SEGMENT          START    LENGTH
-----------------------------------------------
-?C_C51STARTUP                  -----    -----
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  20:38:38  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 2
 
 
+
+SEGMENT                           DATA_GROUP 
+  +--> CALLED SEGMENT           START    LENGTH
+-----------------------------------------------
+?C_C51STARTUP                   -----    -----
   +--> ?PR?MAIN?MAIN
   +--> ?C_INITSEG
 
-?PR?MAIN?MAIN                  000AH    0002H
+?PR?MAIN?MAIN                   000CH    0002H
   +--> ?PR?INIT?INIT
   +--> ?PR?REFLASH?REFLASH
   +--> ?PR?_DELAY_NMS?MAIN
 
-?PR?INIT?INIT                  -----    -----
-  +--> ?PR?INIT8155?INIT
-  +--> ?PR?INIT0808?INIT
-  +--> ?PR?INIT0832?INIT
+?PR?INIT?INIT                   -----    -----
+  +--> ?PR?INIT8155?IO8155
+  +--> ?PR?INIT0808?ADC0808
+  +--> ?PR?INIT0832?DAC0832
 
-?PR?_DELAY_NMS?MAIN            -----    -----
+?PR?REFLASH?REFLASH             -----    -----
+  +--> ?PR?PUSHPORT?IO8155
+  +--> ?PR?GETVOLT?ADC0808
+  +--> ?PR?PUSHVOLT?IO8155
+  +--> ?PR?REFLASH0832?DAC0832
+
+?PR?_DELAY_NMS?MAIN             -----    -----
   +--> ?PR?_DELAY_NUS?MAIN
 
 
@@ -87,177 +98,201 @@ SYMBOL TABLE OF MODULE:  .\Objects\ADC (MAIN)
 
   -------         MODULE        MAIN
   C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0090H         PUBLIC        P1
-  B:00A0H.5       PUBLIC        P2_5
-  C:0107H         PUBLIC        main
-  C:017DH         PUBLIC        _delay_nms
-  C:01D5H         PUBLIC        _delay_nus
+  C:016EH         PUBLIC        main
+  C:0128H         PUBLIC        _delay_nms
+  C:0194H         PUBLIC        _delay_nus
   -------         PROC          _DELAY_NUS
   D:0006H         SYMBOL        i
-  C:01D5H         LINE#         1
-  C:01D5H         LINE#         2
-  C:01D5H         LINE#         3
-  C:01DCH         LINE#         4
-  C:01E5H         LINE#         5
+  C:0194H         LINE#         1
+  C:0194H         LINE#         2
+  C:0194H         LINE#         3
+  C:019BH         LINE#         4
+  C:01A4H         LINE#         5
   -------         ENDPROC       _DELAY_NUS
   -------         PROC          _DELAY_NMS
   D:0002H         SYMBOL        n
-  C:017DH         LINE#         7
-  C:0181H         LINE#         8
-  C:0181H         LINE#         9
-  C:0186H         LINE#         10
-  C:018FH         LINE#         11
-  C:0198H         LINE#         12
+  C:0128H         LINE#         7
+  C:012CH         LINE#         8
+  C:012CH         LINE#         9
+  C:0131H         LINE#         10
+  C:013AH         LINE#         11
+  C:0143H         LINE#         12
   -------         ENDPROC       _DELAY_NMS
   -------         PROC          MAIN
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 3
+
+
   -------         DO            
-  D:000AH         SYMBOL        num
+  D:000CH         SYMBOL        num
   -------         ENDDO         
-  C:0107H         LINE#         10
-  C:0107H         LINE#         11
-  C:0107H         LINE#         12
-  C:010CH         LINE#         13
-  C:010FH         LINE#         14
-  C:010FH         LINE#         15
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  20:38:38  PAGE 3
-
-
-  C:010FH         LINE#         16
-  C:0111H         LINE#         17
-  C:0115H         LINE#         18
-  C:0118H         LINE#         19
-  C:0118H         LINE#         20
-  C:0120H         LINE#         21
-  C:012BH         LINE#         22
-  C:012BH         LINE#         23
-  C:0130H         LINE#         24
-  C:0132H         LINE#         25
-  C:013DH         LINE#         26
-  C:013DH         LINE#         27
-  C:0140H         LINE#         28
-  C:0140H         LINE#         29
-  C:0140H         LINE#         30
-  C:0142H         LINE#         32
-  C:0142H         LINE#         33
-  C:0147H         LINE#         34
-  C:014AH         LINE#         35
-  C:014DH         LINE#         36
-  C:014DH         LINE#         37
-  C:0150H         LINE#         38
-  C:0157H         LINE#         39
+  C:016EH         LINE#         6
+  C:016EH         LINE#         7
+  C:016EH         LINE#         8
+  C:0173H         LINE#         9
+  C:0176H         LINE#         10
+  C:0176H         LINE#         11
+  C:0176H         LINE#         12
+  C:0179H         LINE#         13
+  C:0180H         LINE#         14
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
   -------         MODULE        INIT
   C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0080H         PUBLIC        P0
   D:0090H         PUBLIC        P1
-  B:00A8H.7       PUBLIC        EA
-  B:00A0H.0       PUBLIC        P2_0
-  B:00A0H.1       PUBLIC        P2_1
-  B:00A0H.2       PUBLIC        P2_2
-  C:01AEH         PUBLIC        Init
-  B:00A0H.4       PUBLIC        P2_4
+  C:0144H         PUBLIC        Init
   B:00A0H.5       PUBLIC        P2_5
-  B:00A0H.7       PUBLIC        P2_7
-  B:0098H.0       PUBLIC        RI
   B:0020H.0       PUBLIC        flagAuto
   D:0008H         PUBLIC        volt
   D:0009H         PUBLIC        port
-  C:01E6H         PUBLIC        Init0832
-  C:01C3H         PUBLIC        Init0808
-  C:0003H         PUBLIC        getVolt
-  C:0199H         PUBLIC        Init8155
-  -------         PROC          GETVOLT
-  C:0003H         LINE#         16
-  C:000CH         LINE#         18
-  C:000EH         LINE#         19
-  C:0011H         LINE#         20
-  C:0016H         LINE#         21
-  C:0018H         LINE#         22
-  C:001AH         LINE#         23
-  -------         ENDPROC       GETVOLT
-  -------         PROC          INIT8155
-  C:0199H         LINE#         25
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  20:38:38  PAGE 4
-
-
-  C:0199H         LINE#         26
-  C:0199H         LINE#         27
-  C:019BH         LINE#         28
-  C:019DH         LINE#         29
-  C:01A2H         LINE#         30
-  C:01A6H         LINE#         31
-  C:01ABH         LINE#         32
-  C:01ADH         LINE#         33
-  -------         ENDPROC       INIT8155
-  -------         PROC          INIT0832
-  C:01E6H         LINE#         35
-  C:01E6H         LINE#         36
-  C:01E6H         LINE#         37
-  C:01E8H         LINE#         38
-  C:01EAH         LINE#         39
-  C:01EFH         LINE#         40
-  C:01F1H         LINE#         41
-  -------         ENDPROC       INIT0832
-  -------         PROC          INIT0808
-  C:01C3H         LINE#         43
-  C:01C3H         LINE#         44
-  C:01C3H         LINE#         45
-  C:01C5H         LINE#         46
-  C:01C7H         LINE#         48
-  C:01CAH         LINE#         49
-  C:01CDH         LINE#         50
-  C:01D2H         LINE#         52
-  C:01D4H         LINE#         53
-  -------         ENDPROC       INIT0808
   -------         PROC          INIT
-  C:01AEH         LINE#         55
-  C:01AEH         LINE#         56
-  C:01AEH         LINE#         57
-  C:01B1H         LINE#         58
-  C:01B4H         LINE#         59
-  C:01B6H         LINE#         60
-  C:01BAH         LINE#         61
-  C:01BDH         LINE#         62
-  C:01C0H         LINE#         63
+  C:0144H         LINE#         15
+  C:0144H         LINE#         16
+  C:0144H         LINE#         17
+  C:0147H         LINE#         18
+  C:014AH         LINE#         19
+  C:014CH         LINE#         20
+  C:0150H         LINE#         21
+  C:0153H         LINE#         22
+  C:0156H         LINE#         23
   -------         ENDPROC       INIT
   -------         ENDMOD        INIT
 
   -------         MODULE        REFLASH
   C:0000H         SYMBOL        _ICE_DUMMY_
-  B:00A0H.0       PUBLIC        P2_0
-  B:00B0H.0       PUBLIC        P3_0
-  B:00A0H.3       PUBLIC        P2_3
-  B:00A0H.7       PUBLIC        P2_7
-  C:0159H         PUBLIC        reflash
+  D:0090H         PUBLIC        P1
+  B:00A0H.5       PUBLIC        P2_5
+  D:000AH         PUBLIC        num
+  C:00E4H         PUBLIC        reflash
   -------         PROC          REFLASH
-  C:0159H         LINE#         18
-  C:0159H         LINE#         19
-  C:0159H         LINE#         20
-  C:015BH         LINE#         21
-  C:0160H         LINE#         22
-  C:0162H         LINE#         23
-  C:0164H         LINE#         24
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  20:38:38  PAGE 5
+  C:00E4H         LINE#         10
+  C:00E4H         LINE#         11
+  C:00E4H         LINE#         12
+  C:00E7H         LINE#         13
+  C:00E7H         LINE#         14
+  C:00EFH         LINE#         15
+  C:00FAH         LINE#         16
+  C:00FAH         LINE#         17
+  C:00FFH         LINE#         18
+  C:0101H         LINE#         19
+  C:010CH         LINE#         20
+  C:010CH         LINE#         21
+  C:010FH         LINE#         22
+  C:010FH         LINE#         23
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 4
 
 
-  C:0165H         LINE#         25
-  C:0168H         LINE#         26
-  C:016DH         LINE#         27
-  C:016FH         LINE#         28
-  C:0171H         LINE#         29
-  C:0172H         LINE#         30
-  C:0174H         LINE#         31
-  C:0176H         LINE#         32
-  C:017AH         LINE#         33
-  C:017CH         LINE#         35
+  C:010FH         LINE#         24
+  C:0111H         LINE#         26
+  C:0111H         LINE#         27
+  C:0116H         LINE#         28
+  C:0119H         LINE#         29
+  C:011CH         LINE#         30
+  C:011CH         LINE#         31
+  C:011FH         LINE#         32
+  C:0122H         LINE#         33
+  C:0125H         LINE#         34
   -------         ENDPROC       REFLASH
   -------         ENDMOD        REFLASH
 
+  -------         MODULE        ADC0808
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  B:00A8H.7       PUBLIC        EA
+  B:00B0H.0       PUBLIC        P3_0
+  B:00A0H.7       PUBLIC        P2_7
+  C:0182H         PUBLIC        Init0808
+  C:01A5H         PUBLIC        getVolt
+  -------         PROC          INIT0808
+  C:0182H         LINE#         6
+  C:0182H         LINE#         7
+  C:0182H         LINE#         8
+  C:0184H         LINE#         9
+  C:0186H         LINE#         11
+  C:0189H         LINE#         12
+  C:018CH         LINE#         13
+  C:0191H         LINE#         15
+  C:0193H         LINE#         16
+  -------         ENDPROC       INIT0808
+  -------         PROC          GETVOLT
+  C:01A5H         LINE#         18
+  C:01A5H         LINE#         19
+  C:01A5H         LINE#         20
+  C:01A7H         LINE#         21
+  C:01ABH         LINE#         22
+  C:01AEH         LINE#         23
+  C:01B3H         LINE#         24
+  C:01B5H         LINE#         25
+  -------         ENDPROC       GETVOLT
+  -------         ENDMOD        ADC0808
+
+  -------         MODULE        DAC0832
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A0H.3       PUBLIC        P2_3
+  B:00A0H.4       PUBLIC        P2_4
+  C:01DFH         PUBLIC        reflash0832
+  C:01B6H         PUBLIC        Init0832
+  -------         PROC          INIT0832
+  C:01B6H         LINE#         6
+  C:01B6H         LINE#         7
+  C:01B6H         LINE#         8
+  C:01B8H         LINE#         9
+  C:01BAH         LINE#         10
+  C:01BFH         LINE#         11
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/11/2022  21:44:51  PAGE 5
+
+
+  C:01C1H         LINE#         12
+  -------         ENDPROC       INIT0832
+  -------         PROC          REFLASH0832
+  C:01DFH         LINE#         14
+  C:01DFH         LINE#         15
+  C:01DFH         LINE#         16
+  C:01E1H         LINE#         17
+  C:01E5H         LINE#         18
+  C:01E7H         LINE#         19
+  -------         ENDPROC       REFLASH0832
+  -------         ENDMOD        DAC0832
+
+  -------         MODULE        IO8155
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A0H.0       PUBLIC        P2_0
+  B:00A0H.1       PUBLIC        P2_1
+  C:01CCH         PUBLIC        pushPort
+  C:01C2H         PUBLIC        pushVolt
+  C:0159H         PUBLIC        Init8155
+  -------         PROC          INIT8155
+  C:0159H         LINE#         5
+  C:0159H         LINE#         6
+  C:0159H         LINE#         7
+  C:015BH         LINE#         8
+  C:015DH         LINE#         9
+  C:0162H         LINE#         10
+  C:0166H         LINE#         11
+  C:016BH         LINE#         12
+  C:016DH         LINE#         13
+  -------         ENDPROC       INIT8155
+  -------         PROC          PUSHVOLT
+  C:01C2H         LINE#         15
+  C:01C2H         LINE#         16
+  C:01C2H         LINE#         17
+  C:01C4H         LINE#         18
+  C:01C9H         LINE#         19
+  C:01CBH         LINE#         20
+  -------         ENDPROC       PUSHVOLT
+  -------         PROC          PUSHPORT
+  C:01CCH         LINE#         22
+  C:01CCH         LINE#         23
+  C:01CCH         LINE#         24
+  C:01CEH         LINE#         25
+  C:01D3H         LINE#         26
+  C:01D5H         LINE#         27
+  -------         ENDPROC       PUSHPORT
+  -------         ENDMOD        IO8155
+
   -------         MODULE        ?C?UIDIV
-  C:00B2H         PUBLIC        ?C?UIDIV
+  C:008FH         PUBLIC        ?C?UIDIV
   -------         ENDMOD        ?C?UIDIV
 
-Program Size: data=13.1 xdata=0 code=505
+Program Size: data=15.1 xdata=0 code=488
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

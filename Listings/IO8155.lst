@@ -1,0 +1,51 @@
+C51 COMPILER V9.60.0.0   IO8155                                                            12/11/2022 21:44:51 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IO8155
+OBJECT MODULE PLACED IN .\Objects\IO8155.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE IO8155.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\IO
+                    -8155.lst) TABS(2) OBJECT(.\Objects\IO8155.obj)
+
+line level    source
+
+   1          #include <AT89X52.h>
+   2          #include <absacc.h>
+   3          #include "Init.h"
+   4          #include "IO8155.h"
+   5          void Init8155()
+   6          {
+   7   1        CS_8155 = 0;
+   8   1        IOM_8155 = 1;
+   9   1        ioSet = 0x8F;
+  10   1        ioA = volt;
+  11   1        ioC = port;
+  12   1        CS_8155 = 1;
+  13   1      }
+  14          
+  15          void pushVolt()
+  16          {
+  17   1        CS_8155 = 0;
+  18   1        ioA = volt;
+  19   1        CS_8155 = 1;
+  20   1      }
+  21          
+  22          void pushPort()
+  23          {
+  24   1        CS_8155 = 0;
+  25   1        ioC = port;
+  26   1        CS_8155 = 1;
+  27   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     41    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

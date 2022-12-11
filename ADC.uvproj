@@ -406,6 +406,36 @@
               <FileType>5</FileType>
               <FilePath>.\delay.h</FilePath>
             </File>
+            <File>
+              <FileName>ADC0808.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ADC0808.c</FilePath>
+            </File>
+            <File>
+              <FileName>ADC0808.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ADC0808.h</FilePath>
+            </File>
+            <File>
+              <FileName>DAC0832.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\DAC0832.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAC0832.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\DAC0832.h</FilePath>
+            </File>
+            <File>
+              <FileName>IO8155.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\IO8155.c</FilePath>
+            </File>
+            <File>
+              <FileName>IO8155.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\IO8155.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
