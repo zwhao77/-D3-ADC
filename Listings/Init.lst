@@ -1,0 +1,90 @@
+C51 COMPILER V9.60.0.0   INIT                                                              12/11/2022 20:38:38 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INIT
+OBJECT MODULE PLACED IN .\Objects\Init.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Init.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Init
+                    -.lst) TABS(2) OBJECT(.\Objects\Init.obj)
+
+line level    source
+
+   1          #include <AT89X52.h>
+   2          #include <absacc.h>
+   3          #define uchar unsigned char
+   4          #define CS_8155 P2_0
+   5          #define IOM_8155 P2_1
+   6          #define CS_0832 P2_2
+   7          #define XFER_0832 P2_4
+   8          #define unEN_0808 P2_7
+   9          #define ioSet PBYTE[0x00]
+  10          #define ioA PBYTE[0x01]
+  11          #define ioC PBYTE[0x03]
+  12          uchar port = 0x01;
+  13          uchar volt = 0x08;
+  14          bit flagAuto = 0;
+  15          
+  16          void getVolt() interrupt 4
+  17          {
+  18   1        EA = 0;
+  19   1        volt = P0;
+  20   1        ioA = volt;
+  21   1        RI = 0;
+  22   1        EA = 1;
+  23   1      }
+  24          
+  25          void Init8155()
+  26          {
+  27   1        CS_8155 = 0;
+  28   1        IOM_8155 = 1;
+  29   1        ioSet = 0x8F;
+  30   1        ioA = volt;
+  31   1        ioC = port;
+  32   1        CS_8155 = 1;
+  33   1      }
+  34          
+  35          void Init0832()
+  36          {
+  37   1        XFER_0832 = 0;
+  38   1        CS_0832 = 0;
+  39   1        ioA = volt;
+  40   1        CS_0832 = 1;
+  41   1      }
+  42          
+  43          void Init0808()
+  44          {
+  45   1        unEN_0808 = 0;
+  46   1        EA = 0;
+  47   1        //ES = 1;
+  48   1        port = P1;
+  49   1        port = port & 0x0F;
+  50   1        ioC = port;
+  51   1        //EA = 1;
+  52   1        unEN_0808 = 1;
+  53   1      }
+  54          
+C51 COMPILER V9.60.0.0   INIT                                                              12/11/2022 20:38:38 PAGE 2   
+
+  55          void Init()
+  56          {
+  57   1        port = P1;
+  58   1        port = port & 0x0F;
+  59   1        P2_5 = 1;
+  60   1        flagAuto = P2_5;
+  61   1        Init8155();
+  62   1        Init0808();
+  63   1        Init0832();
+  64   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    102    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
