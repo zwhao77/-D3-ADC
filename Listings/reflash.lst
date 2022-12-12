@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 12:18:21 PAGE 1   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 16:15:19 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE REFLASH
@@ -16,11 +16,11 @@ line level    source
    6          #include "DAC0832.h"
    7          #include "voltCalc.h"
    8          #include "delay.h"
-   9          int num;
-  10          static uchar tmport;
+   9          int num;//用于自动模式下统计读取数据次数
+  10          static uchar tmport;//用于判断端口切换
   11          void reflash()
   12          {
-  13   1        //若为自动模式，则读取50次数据进行一次通道切换
+  13   1        //若为自动模式，则在一个端口读取50次数据进行一次端口切换
   14   1        if (flagAuto == 1)
   15   1        {
   16   2          num++;
@@ -42,7 +42,7 @@ line level    source
   32   2        }
   33   1        //数据刷新
   34   1        pushPort();
-  35   1        if (tmport =! port)
+  35   1        if (tmport =! port)//判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
   36   1        {
   37   2          delay_nms(100);
   38   2          volt = getVolt();
@@ -50,11 +50,28 @@ line level    source
   40   2        }
   41   1        else
   42   1        {
-  43   2          volt = filtFuns[port+4]();
+  43   2          volt = filtFuns[port+4]();//滤波功能函数指针数组，功能号见下
   44   2        }
   45   1        pushVolt();
   46   1        reflash0832();
   47   1      }
+  48          /*
+  49          | 序号 | 功能         | 函数名               |
+  50          | ---- | ------------ | -------------------- |
+  51          | 0    | 平均值滤波   | uchar avgFilt()      |
+  52          | 1    | 滑动平均滤波 | uchar slideavgFilt() |
+  53          | 2    | 限速滤波     | uchar speedFilt()    |
+  54          | 3    | 限幅滤波     | uchar amplimtFilt()  |
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 16:15:19 PAGE 2   
+
+  55          | 4    | 中位数滤波   | uchar midFilt()      |
+  56          | 5    | 中位平均滤波 | uchar midavgFilt()   |
+  57          | 6    | 限幅平均滤波 | uchar limtvgFilt()   |
+  58          | 7    | 一阶滞后滤波 | uchar onlastFilt()   |
+  59          | 8    | 加权递推     | uchar weislidFlit()  |
+  60          | 9    | 消抖滤波     | uchar debFilt()      |
+  61          | 10   | 限幅消抖滤波 | uchar debavgFilt()   |
+  62          */
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
@@ -62,8 +79,6 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 12:18:21 PAGE 2   
-
    DATA SIZE        =      3    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----

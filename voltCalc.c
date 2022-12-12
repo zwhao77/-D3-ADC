@@ -13,7 +13,9 @@ extern uchar port;
 uchar tmpPort = 200;
 uchar slidV[5];
 uchar debnum = 0;
-// 平均值滤波
+
+/// @brief 平均值滤波
+/// @return 滤波后模拟量数值
 uchar avgFilt()
 {
     uchar V[5];
@@ -30,7 +32,9 @@ uchar avgFilt()
     return ((uchar)(num / 5));
 }
 
-// 滑动平均滤波
+
+/// @brief 滑动平均滤波
+/// @return 滤波后模拟量数值
 uchar slideavgFilt()
 {
     uchar i = 0;
@@ -61,7 +65,9 @@ uchar slideavgFilt()
     return ((uchar)num / 5);
 }
 
-// 限速滤波
+
+/// @brief 限速滤波
+/// @return 滤波后模拟量数值
 uchar speedFilt()
 {
     uchar V[3];
@@ -85,7 +91,8 @@ uchar speedFilt()
     }
 }
 
-// 限幅滤波
+/// @brief 限幅滤波
+/// @return 滤波后模拟量数值
 uchar amplimtFilt()
 {
     uchar tmp = getVolt();
@@ -99,7 +106,8 @@ uchar amplimtFilt()
     }
 }
 
-// 中位数滤波
+/// @brief 中位数滤波
+/// @return 滤波后模拟量数值
 uchar midFilt()
 {
     uchar V[5];
@@ -124,7 +132,8 @@ uchar midFilt()
     return V[2];
 }
 
-// 中位平均滤波
+/// @brief 中位平均滤波
+/// @return 滤波后模拟量数值
 uchar midavgFilt()
 {
     uchar V[5];
@@ -151,7 +160,8 @@ uchar midavgFilt()
     return ((uchar)(num / 3));
 }
 
-// 限幅平均滤波
+/// @brief 限幅平均滤波
+/// @return 滤波后模拟量数值
 uchar limtvgFilt()
 {
     uchar V[5];
@@ -173,13 +183,15 @@ uchar limtvgFilt()
     return ((uchar)(num / 5));
 }
 
-// 一阶滞后滤波
+/// @brief 一阶滞后滤波
+/// @return 滤波后模拟量数值
 uchar onlastFilt()
 {
     return ((1 - LASTA) * volt + LASTA * getVolt());
 }
 
-// 加权递推
+/// @brief 加权递推滤波
+/// @return 滤波后模拟量数值
 uchar weislidFlit()
 {
     uchar i = 0;
@@ -209,7 +221,8 @@ uchar weislidFlit()
     return ((uchar)num / (15 * 5));
 }
 
-// 消抖滤波
+/// @brief 消抖滤波
+/// @return 滤波后模拟量数值
 uchar debFilt()
 {
     if (volt = getVolt())
@@ -229,7 +242,9 @@ uchar debFilt()
         return volt;
     }
 }
-// 限幅消抖滤波
+
+/// @brief 限幅消抖滤波
+/// @return 滤波后模拟量数值
 uchar debavgFilt()
 {
     uchar tmp = getVolt();
@@ -254,6 +269,7 @@ uchar debavgFilt()
     }
 }
 
+/// @brief 用于快速切换滤波方式的函数指针数组
 uchar (*filtFuns[11])() =
     {
         avgFilt,

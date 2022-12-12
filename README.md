@@ -40,23 +40,24 @@ debavgFilt,
 ~~~
 
 功能依次为：
-| 序号 | 功能         | 函数名               |
+| 序号 | 功能         | 函数               |
 | ---- | ------------ | -------------------- |
-| 0    | 平均值滤波   | uchar avgFilt()      |
-| 1    | 滑动平均滤波 | uchar slideavgFilt() |
-| 2    | 限速滤波     | uchar speedFilt()    |
-| 3    | 限幅滤波     | uchar amplimtFilt()  |
-| 4    | 中位数滤波   | uchar midFilt()      |
-| 5    | 中位平均滤波 | uchar midavgFilt()   |
-| 6    | 限幅平均滤波 | uchar limtvgFilt()   |
-| 7    | 一阶滞后滤波 | uchar onlastFilt()   |
-| 8    | 加权递推     | uchar weislidFlit()  |
-| 9    | 消抖滤波     | uchar debFilt()      |
-| 10   | 限幅消抖滤波 | uchar debavgFilt()   |
+| 0    | 平均值滤波   | `uchar avgFilt()`    |
+| 1    | 滑动平均滤波 | `uchar slideavgFilt()` |
+| 2    | 限速滤波     | `uchar speedFilt()`    |
+| 3    | 限幅滤波     | `uchar amplimtFilt()`  |
+| 4    | 中位数滤波   | `uchar midFilt()`      |
+| 5    | 中位平均滤波 | `uchar midavgFilt()`   |
+| 6    | 限幅平均滤波 | `uchar limtvgFilt()`   |
+| 7    | 一阶滞后滤波 | `uchar onlastFilt()`  |
+| 8    | 加权递推     | `uchar weislidFlit()`  |
+| 9    | 消抖滤波     | `uchar debFilt()`      |
+| 10   | 限幅消抖滤波 | `uchar debavgFilt()`   |
 
 函数指针调用位置:`reflash.c`
 
 ~~~C
+...
 if (tmport =! port)
 {
     delay_nms(100);
@@ -67,6 +68,7 @@ else
 {
     volt = filtFuns[port+4]();
 }
+...
 ~~~
 
 ## 文件简介
@@ -126,19 +128,19 @@ debavgFilt,
 ~~~
 
 功能依次为：
-| 序号 | 功能         | 函数名               |
+| 序号 | 功能         | 函数               |
 | ---- | ------------ | -------------------- |
-| 0    | 平均值滤波   | uchar avgFilt()      |
-| 1    | 滑动平均滤波 | uchar slideavgFilt() |
-| 2    | 限速滤波     | uchar speedFilt()    |
-| 3    | 限幅滤波     | uchar amplimtFilt()  |
-| 4    | 中位数滤波   | uchar midFilt()      |
-| 5    | 中位平均滤波 | uchar midavgFilt()   |
-| 6    | 限幅平均滤波 | uchar limtvgFilt()   |
-| 7    | 一阶滞后滤波 | uchar onlastFilt()   |
-| 8    | 加权递推     | uchar weislidFlit()  |
-| 9    | 消抖滤波     | uchar debFilt()      |
-| 10   | 限幅消抖滤波 | uchar debavgFilt()   |
+| 0    | 平均值滤波   | `uchar avgFilt()`    |
+| 1    | 滑动平均滤波 | `uchar slideavgFilt()` |
+| 2    | 限速滤波     | `uchar speedFilt()`    |
+| 3    | 限幅滤波     | `uchar amplimtFilt()`  |
+| 4    | 中位数滤波   | `uchar midFilt()`      |
+| 5    | 中位平均滤波 | `uchar midavgFilt()`   |
+| 6    | 限幅平均滤波 | `uchar limtvgFilt()`   |
+| 7    | 一阶滞后滤波 | `uchar onlastFilt()`  |
+| 8    | 加权递推     | `uchar weislidFlit()`  |
+| 9    | 消抖滤波     | `uchar debFilt()`      |
+| 10   | 限幅消抖滤波 | `uchar debavgFilt()`   |
 
 ### delay
 
@@ -233,4 +235,3 @@ void Init()
 
 **硬件模型描述待补充**
 ![系统模型](modle.jpg)
-
