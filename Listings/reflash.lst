@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 16:15:19 PAGE 1   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 18:29:12 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE REFLASH
@@ -50,7 +50,7 @@ line level    source
   40   2        }
   41   1        else
   42   1        {
-  43   2          volt = filtFuns[port+4]();//滤波功能函数指针数组，功能号见下
+  43   2          volt = filtFuns[port+3]();//滤波功能函数指针数组，功能号见下
   44   2        }
   45   1        pushVolt();
   46   1        reflash0832();
@@ -62,7 +62,7 @@ line level    source
   52          | 1    | 滑动平均滤波 | uchar slideavgFilt() |
   53          | 2    | 限速滤波     | uchar speedFilt()    |
   54          | 3    | 限幅滤波     | uchar amplimtFilt()  |
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 16:15:19 PAGE 2   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 18:29:12 PAGE 2   
 
   55          | 4    | 中位数滤波   | uchar midFilt()      |
   56          | 5    | 中位平均滤波 | uchar midavgFilt()   |

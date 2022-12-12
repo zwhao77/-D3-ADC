@@ -225,7 +225,8 @@ uchar weislidFlit()
 /// @return 滤波后模拟量数值
 uchar debFilt()
 {
-    if (volt = getVolt())
+    uchar tmp = getVolt();
+    if (volt == tmp)
     {
         debnum = 0;
     }
@@ -235,7 +236,8 @@ uchar debFilt()
     }
     if (debnum > MAXDEB)
     {
-        return getVolt();
+        debnum = 0;
+        return tmp;
     }
     else
     {
@@ -248,7 +250,7 @@ uchar debFilt()
 uchar debavgFilt()
 {
     uchar tmp = getVolt();
-    if (volt = tmp)
+    if (volt == tmp)
     {
         debnum = 0;
     }
@@ -261,6 +263,7 @@ uchar debavgFilt()
     }
     if (debnum > MAXDEB)
     {
+        debnum = 0;
         return tmp;
     }
     else

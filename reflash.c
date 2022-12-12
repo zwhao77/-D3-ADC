@@ -40,7 +40,7 @@ void reflash()
 	}
 	else
 	{
-		volt = filtFuns[port+4]();//滤波功能函数指针数组，功能号见下
+		volt = filtFuns[port+3]();//滤波功能函数指针数组，功能号见下
 	}
 	pushVolt();
 	reflash0832();
