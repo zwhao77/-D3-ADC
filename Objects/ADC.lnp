@@ -4,6 +4,7 @@
 ".\Objects\ADC0808.obj",
 ".\Objects\DAC0832.obj",
 ".\Objects\IO8155.obj",
-".\Objects\voltCalc.obj" 
+".\Objects\voltCalc.obj",
+".\Objects\delay.obj" 
 TO ".\Objects\ADC" 
 PRINT(".\Listings\ADC.m51") RAMSIZE(256) 

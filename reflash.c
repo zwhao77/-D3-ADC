@@ -5,7 +5,9 @@
 #include "ADC0808.h"
 #include "DAC0832.h"
 #include "voltCalc.h"
+#include "delay.h"
 int num;
+static uchar tmport;
 void reflash()
 {
 	//若为自动模式，则读取50次数据进行一次通道切换
@@ -30,8 +32,16 @@ void reflash()
 	}
 	//数据刷新
 	pushPort();
-	//volt = getVolt();
-	volt = filtFuns[7]();
+	if (tmport =! port)
+	{
+		delay_nms(100);
+		volt = getVolt();
+		tmport = port;
+	}
+	else
+	{
+		volt = filtFuns[port+4]();
+	}
 	pushVolt();
 	reflash0832();
 }

@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   INIT                                                              12/12/2022 00:37:33 PAGE 1   
+C51 COMPILER V9.60.0.0   INIT                                                              12/12/2022 12:18:21 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INIT
 OBJECT MODULE PLACED IN .\Objects\Init.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Init.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Init
-                    -.lst) TABS(2) OBJECT(.\Objects\Init.obj)
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Init.c OPTIMIZE(8,SPEED) PRINT(.\Listings\Init.lst) TABS(2) OBJECT(.\Obj
+                    -ects\Init.obj)
 
 line level    source
 

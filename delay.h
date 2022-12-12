@@ -1,12 +1,7 @@
-void delay_nus(unsigned int i)  //延时:i>=12 ,i的最小延时单12 us
-{ 
-  i=i/10;
-  while(--i);
-}   
+#ifndef _DELAY_H
+#define _DELAY_H
 
-void delay_nms(unsigned int n)  //延时n ms
-{ 
-  n=n+1;
-  while(--n)  
-  delay_nus(900);         //延时 1ms,同时进行补偿
-}   
+void delay_nus(unsigned int i);  //延时:i>=12 ,i的最小延时单12 us
+void delay_nms(unsigned int n);  //延时n ms
+
+#endif

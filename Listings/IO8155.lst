@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   IO8155                                                            12/12/2022 00:37:34 PAGE 1   
+C51 COMPILER V9.60.0.0   IO8155                                                            12/12/2022 12:18:21 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IO8155
 OBJECT MODULE PLACED IN .\Objects\IO8155.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE IO8155.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\IO
-                    -8155.lst) TABS(2) OBJECT(.\Objects\IO8155.obj)
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE IO8155.c OPTIMIZE(8,SPEED) PRINT(.\Listings\IO8155.lst) TABS(2) OBJECT(.
+                    -\Objects\IO8155.obj)
 
 line level    source
 

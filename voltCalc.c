@@ -3,19 +3,22 @@
 #include <absacc.h>
 #include <math.h>
 #include "ADC0808.h"
-
-#define dV 20
-#define lastA 0.3
-#define maxDeb 5
+#include "delay.h"
+#define DV 20
+#define LV 50
+#define LASTA 0.3
+#define MAXDEB 5
 extern uchar volt;
 extern uchar port;
-
+uchar tmpPort = 200;
+uchar slidV[5];
+uchar debnum = 0;
 // 平均值滤波
 uchar avgFilt()
 {
     uchar V[5];
     int num = 0;
-    uchar i = 0;
+    int i = 0;
     for (i = 0; i < 5; i++)
     {
         V[i] = getVolt();
@@ -24,31 +27,36 @@ uchar avgFilt()
     {
         num += V[i];
     }
-    return (num/5);
+    return ((uchar)(num / 5));
 }
 
 // 滑动平均滤波
 uchar slideavgFilt()
 {
-    static uchar V[5] = {0, 0, 0, 0, 0};
-    static tmpPort = 0;
     uchar i = 0;
+    uchar tmp;
     int num;
     if (tmpPort != port)
     {
+        delay_nms(20);
+        tmp = getVolt();
         for (i = 0; i < 5; i++)
         {
-            V[i] = 0;
+            slidV[i] = tmp;
         }
+        return tmp;
     }
-    for (i = 0; i < 4; i++)
+    else
     {
-        V[i + 1] = V[i];
-    }
-    V[0] = getVolt();
-    for (i = 0; i < 5; i++)
-    {
-        num += V[i];
+        for (i = 4; i > 0; i--)
+        {
+            slidV[i + 1] = slidV[i];
+        }
+        slidV[0] = getVolt();
+        for (i = 0; i < 5; i++)
+        {
+            num += slidV[i];
+        }
     }
     return ((uchar)num / 5);
 }
@@ -59,20 +67,20 @@ uchar speedFilt()
     uchar V[3];
     V[0] = getVolt();
     V[1] = getVolt();
-    if (abs(V[0] - V[1]) <= dV)
+    if (abs(V[0] - V[1]) <= DV)
     {
         return V[1];
     }
     else
     {
         V[2] = getVolt();
-        if (abs(V[1] - V[2]) <= dV)
+        if (abs(V[1] - V[2]) <= DV)
         {
             return V[2];
         }
         else
         {
-            return (V[2] + V[3]) / 2;
+            return ((V[2] + V[3]) / 2);
         }
     }
 }
@@ -81,7 +89,7 @@ uchar speedFilt()
 uchar amplimtFilt()
 {
     uchar tmp = getVolt();
-    if (abs(volt - tmp) < 10)
+    if (abs(volt - tmp) < LV)
     {
         return tmp;
     }
@@ -101,9 +109,9 @@ uchar midFilt()
     {
         V[i] = getVolt();
     }
-    for (i = 4; i > 0; i--)
+    for (i = 1; i < 5; i++)
     {
-        for (j = 0; j < i; i++)
+        for (j = 0; j < 5 - i; j++)
         {
             if (V[j] > V[j + 1])
             {
@@ -122,13 +130,14 @@ uchar midavgFilt()
     uchar V[5];
     uchar i, j;
     uchar tmp = 0;
+    int num = 0;
     for (i = 0; i < 5; i++)
     {
         V[i] = getVolt();
     }
-    for (i = 4; i > 0; i--)
+    for (i = 1; i < 5; i++)
     {
-        for (j = 0; j < i; i++)
+        for (j = 0; j < 5 - i; j++)
         {
             if (V[j] > V[j + 1])
             {
@@ -138,82 +147,80 @@ uchar midavgFilt()
             }
         }
     }
-    return (V[1] + V[2] + V[3]) / 2;
+    num = (V[1] + V[2] + V[3]);
+    return ((uchar)(num / 3));
 }
 
 // 限幅平均滤波
 uchar limtvgFilt()
 {
     uchar V[5];
-    uchar i;
-    uchar tmp = 0;
-    uchar num;
+    int num = 0;
+    int i = 0;
     V[0] = volt;
-    i = 1;
-    while (i > 5)
+    for (i = 1; i < 5; i++)
     {
-        if (abs(V[i] - V[i - 1]) < 10)
+        V[i] = getVolt();
+        if (abs(V[i] - V[i - 1]) > LV)
         {
-            V[i] = getVolt();
+             V[i] = V[i - 1];
         }
-        else
-        {
-            V[i] = V[i - 1];
-        }
-        i++;
     }
     for (i = 0; i < 5; i++)
     {
         num += V[i];
     }
-    return ((uchar)num / 5);
+    return ((uchar)(num / 5));
 }
 
 // 一阶滞后滤波
 uchar onlastFilt()
 {
-    return ((1 - lastA) * volt + lastA * getVolt());
+    return ((1 - LASTA) * volt + LASTA * getVolt());
 }
 
-//加权递推
+// 加权递推
 uchar weislidFlit()
 {
-    static uchar V[5] = {0, 0, 0, 0, 0};
-    static tmpPort = 0;
     uchar i = 0;
+    uchar tmp;
     int num;
     if (tmpPort != port)
     {
+        tmp = getVolt();
         for (i = 0; i < 5; i++)
         {
-            V[i] = 0;
+            slidV[i] = tmp;
+        }
+        return tmp;
+    }
+    else
+    {
+        for (i = 4; i > 0; i--)
+        {
+            slidV[i + 1] = slidV[i];
+        }
+        slidV[0] = getVolt();
+        for (i = 0; i < 5; i++)
+        {
+            num += (i + 1) * slidV[i];
         }
     }
-    for (i = 0; i < 4; i++)
-    {
-        V[i + 1] = V[i];
-    }
-    V[0] = getVolt();
-    for (i = 0; i < 5; i++)
-    {
-        num += (i+1)*V[i];
-    }
-    return ((uchar)num / (15*5));
+    return ((uchar)num / (15 * 5));
 }
 
 // 消抖滤波
 uchar debFilt()
 {
-    static uchar i = 0;
     if (volt = getVolt())
     {
-        i = 0;
+        debnum = 0;
     }
     else
     {
-        i++;
+        debnum++;
     }
-    if (i > maxDeb)
+    if (debnum > MAXDEB)
     {
         return getVolt();
     }
@@ -225,20 +232,19 @@ uchar debFilt()
 // 限幅消抖滤波
 uchar debavgFilt()
 {
-    static uchar i = 0;
     uchar tmp = getVolt();
     if (volt = tmp)
     {
-        i = 0;
+        debnum = 0;
     }
     else
     {
-        if (abs(volt - tmp) < 10)
+        if (abs(volt - tmp) < LV)
         {
-            i++;
+            debnum++;
         }
     }
-    if (i > maxDeb)
+    if (debnum > MAXDEB)
     {
         return tmp;
     }
@@ -248,17 +254,17 @@ uchar debavgFilt()
     }
 }
 
-uchar (*filtFuns[11]) () = 
-{
-avgFilt,
-slideavgFilt,
-speedFilt,
-amplimtFilt,
-midFilt,
-midavgFilt,
-limtvgFilt,
-onlastFilt,
-weislidFlit,
-debFilt,
-debavgFilt,
+uchar (*filtFuns[11])() =
+    {
+        avgFilt,
+        slideavgFilt,
+        speedFilt,
+        amplimtFilt,
+        midFilt,
+        midavgFilt,
+        limtvgFilt,
+        onlastFilt,
+        weislidFlit,
+        debFilt,
+        debavgFilt,
 };

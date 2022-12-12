@@ -5,7 +5,6 @@
 
 void main()
 {
-	int num = 0;
 	Init();
 	while (1)
 	{
