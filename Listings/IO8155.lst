@@ -1,0 +1,52 @@
+C51 COMPILER V9.60.0.0   IO8155                                                            12/12/2022 19:03:53 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IO8155
+OBJECT MODULE PLACED IN .\Objects\IO8155.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE IO8155.c OPTIMIZE(8,SPEED) PRINT(.\Listings\IO8155.lst) TABS(2) OBJECT(.
+                    -\Objects\IO8155.obj)
+
+line level    source
+
+   1          #include <AT89X52.h>
+   2          #include <absacc.h>
+   3          #include "Init.h"
+   4          #include "IO8155.h"
+   5          /// @brief 初始化8155芯片
+   6          void Init8155()
+   7          {
+   8   1        CS_8155 = 0;
+   9   1        IOM_8155 = 1;
+  10   1        ioSet = 0x8F;//设置为三口均输出，定时器停止工作，禁用中断
+  11   1        ioA = volt;
+  12   1        ioC = port;//初始值送出
+  13   1        CS_8155 = 1;
+  14   1      }
+  15          /// @brief 向A口输出转换后电压的数字量
+  16          void pushVolt()
+  17          {
+  18   1        CS_8155 = 0;
+  19   1        ioA = volt;
+  20   1        CS_8155 = 1;
+  21   1      }
+  22          /// @brief 向C口输出待转换端口
+  23          void pushPort()
+  24          {
+  25   1        CS_8155 = 0;
+  26   1        ioC = port;
+  27   1        CS_8155 = 1;
+  28   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     41    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

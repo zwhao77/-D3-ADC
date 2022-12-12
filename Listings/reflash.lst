@@ -1,56 +1,85 @@
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/11/2022 20:38:38 PAGE 1   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 19:03:52 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE REFLASH
 OBJECT MODULE PLACED IN .\Objects\reflash.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE reflash.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\r
-                    -eflash.lst) TABS(2) OBJECT(.\Objects\reflash.obj)
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE reflash.c OPTIMIZE(8,SPEED) PRINT(.\Listings\reflash.lst) TABS(2) OBJECT
+                    -(.\Objects\reflash.obj)
 
 line level    source
 
    1          #include <AT89X52.h>
    2          #include <absacc.h>
-   3          #define uchar unsigned char
-   4          #define CS_8155 P2_0
-   5          #define IOM_8155 P2_1
-   6          #define CS_0832 P2_3
-   7          #define WR_0832 P3_6
-   8          #define XFER_0832 P2_4
-   9          #define unEN_0808 P2_7
-  10          #define ioSet PBYTE[0x00]
-  11          #define ioA PBYTE[0x01]
-  12          #define ioC PBYTE[0x03]
-  13          #define Vadd PBYTE[0xFF]
-  14          extern uchar port;
-  15          extern uchar volt;
-  16          extern bit flagAuto;
-  17          
-  18          void reflash()
-  19          {
-  20   1        CS_8155 = 0;
-  21   1        ioC = port;
-  22   1        CS_8155 = 1;
-  23   1        unEN_0808 = 0;
-  24   1        ioC = port;
-  25   1        while (P3_0 == 1);
-  26   1        volt = ioA;
-  27   1        unEN_0808 = 1;
-  28   1        CS_8155 = 0;
-  29   1        ioA = volt;
-  30   1        CS_8155 = 1;
-  31   1        CS_0832 = 0;
-  32   1        Vadd = 0;
-  33   1        CS_0832 = 1;
-  34   1        
-  35   1      }
+   3          #include "Init.h"
+   4          #include "IO8155.h"
+   5          #include "ADC0808.h"
+   6          #include "DAC0832.h"
+   7          #include "voltCalc.h"
+   8          #include "delay.h"
+   9          int num;//用于自动模式下统计读取数据次数
+  10          static uchar tmport;//用于判断端口切换
+  11          void reflash()
+  12          {
+  13   1        //若为自动模式，则在一个端口读取50次数据进行一次端口切换
+  14   1        if (flagAuto == 1)
+  15   1        {
+  16   2          num++;
+  17   2          if (num > 50)
+  18   2          {
+  19   3            num = 0;
+  20   3            port++;
+  21   3            if (port > 7)
+  22   3            {
+  23   4              port = 0;
+  24   4            }
+  25   3          }
+  26   2        }
+  27   1        else
+  28   1        {
+  29   2          num = 0;
+  30   2          port = P1;
+  31   2          port = port & 0x0F;
+  32   2        }
+  33   1        //数据刷新
+  34   1        pushPort();
+  35   1        if (tmport =! port)//判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
+  36   1        {
+  37   2          delay_nms(100);
+  38   2          volt = getVolt();
+  39   2          tmport = port;
+  40   2        }
+  41   1        else
+  42   1        {
+  43   2          volt = filtFuns[port+3]();//滤波功能函数指针数组，功能号见下
+  44   2        }
+  45   1        pushVolt();
+  46   1        reflash0832();
+  47   1      }
+  48          /*
+  49          | 序号 | 功能         | 函数名               |
+  50          | ---- | ------------ | -------------------- |
+  51          | 0    | 平均值滤波   | uchar avgFilt()      |
+  52          | 1    | 滑动平均滤波 | uchar slideavgFilt() |
+  53          | 2    | 限速滤波     | uchar speedFilt()    |
+  54          | 3    | 限幅滤波     | uchar amplimtFilt()  |
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/12/2022 19:03:52 PAGE 2   
+
+  55          | 4    | 中位数滤波   | uchar midFilt()      |
+  56          | 5    | 中位平均滤波 | uchar midavgFilt()   |
+  57          | 6    | 限幅平均滤波 | uchar limtvgFilt()   |
+  58          | 7    | 一阶滞后滤波 | uchar onlastFilt()   |
+  59          | 8    | 加权递推     | uchar weislidFlit()  |
+  60          | 9    | 消抖滤波     | uchar debFilt()      |
+  61          | 10   | 限幅消抖滤波 | uchar debavgFilt()   |
+  62          */
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     36    ----
+   CODE SIZE        =    117    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
+   DATA SIZE        =      3    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
