@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 16:15:20 PAGE 1   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 19:03:53 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE VOLTCALC
@@ -62,7 +62,7 @@ line level    source
   52   2          }
   53   1          else
   54   1          {
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 16:15:20 PAGE 2   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 19:03:53 PAGE 2   
 
   55   2              for (i = 4; i > 0; i--)
   56   2              {
@@ -126,7 +126,7 @@ line level    source
  114   1          uchar i, j;
  115   1          uchar tmp = 0;
  116   1          for (i = 0; i < 5; i++)
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 16:15:20 PAGE 3   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 19:03:53 PAGE 3   
 
  117   1          {
  118   2              V[i] = getVolt();
@@ -190,7 +190,7 @@ line level    source
  176   3                   V[i] = V[i - 1];
  177   3              }
  178   2          }
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 16:15:20 PAGE 4   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 19:03:53 PAGE 4   
 
  179   1          for (i = 0; i < 5; i++)
  180   1          {
@@ -241,71 +241,74 @@ line level    source
  225          /// @return 滤波后模拟量数值
  226          uchar debFilt()
  227          {
- 228   1          if (volt = getVolt())
- 229   1          {
- 230   2              debnum = 0;
- 231   2          }
- 232   1          else
- 233   1          {
- 234   2              debnum++;
- 235   2          }
- 236   1          if (debnum > MAXDEB)
- 237   1          {
- 238   2              return getVolt();
- 239   2          }
- 240   1          else
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 16:15:20 PAGE 5   
+ 228   1          uchar tmp = getVolt();
+ 229   1          if (volt == tmp)
+ 230   1          {
+ 231   2              debnum = 0;
+ 232   2          }
+ 233   1          else
+ 234   1          {
+ 235   2              debnum++;
+ 236   2          }
+ 237   1          if (debnum > MAXDEB)
+ 238   1          {
+ 239   2              debnum = 0;
+ 240   2              return tmp;
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/12/2022 19:03:53 PAGE 5   
 
- 241   1          {
- 242   2              return volt;
- 243   2          }
- 244   1      }
- 245          
- 246          /// @brief 限幅消抖滤波
- 247          /// @return 滤波后模拟量数值
- 248          uchar debavgFilt()
- 249          {
- 250   1          uchar tmp = getVolt();
- 251   1          if (volt = tmp)
- 252   1          {
- 253   2              debnum = 0;
- 254   2          }
- 255   1          else
- 256   1          {
- 257   2              if (abs(volt - tmp) < LV)
- 258   2              {
- 259   3                  debnum++;
- 260   3              }
- 261   2          }
- 262   1          if (debnum > MAXDEB)
- 263   1          {
- 264   2              return tmp;
- 265   2          }
- 266   1          else
- 267   1          {
- 268   2              return volt;
- 269   2          }
- 270   1      }
- 271          
- 272          /// @brief 用于快速切换滤波方式的函数指针数组
- 273          uchar (*filtFuns[11])() =
- 274              {
- 275                  avgFilt,
- 276                  slideavgFilt,
- 277                  speedFilt,
- 278                  amplimtFilt,
- 279                  midFilt,
- 280                  midavgFilt,
- 281                  limtvgFilt,
- 282                  onlastFilt,
- 283                  weislidFlit,
- 284                  debFilt,
- 285                  debavgFilt,
- 286          };
+ 241   2          }
+ 242   1          else
+ 243   1          {
+ 244   2              return volt;
+ 245   2          }
+ 246   1      }
+ 247          
+ 248          /// @brief 限幅消抖滤波
+ 249          /// @return 滤波后模拟量数值
+ 250          uchar debavgFilt()
+ 251          {
+ 252   1          uchar tmp = getVolt();
+ 253   1          if (volt == tmp)
+ 254   1          {
+ 255   2              debnum = 0;
+ 256   2          }
+ 257   1          else
+ 258   1          {
+ 259   2              if (abs(volt - tmp) < LV)
+ 260   2              {
+ 261   3                  debnum++;
+ 262   3              }
+ 263   2          }
+ 264   1          if (debnum > MAXDEB)
+ 265   1          {
+ 266   2              debnum = 0;
+ 267   2              return tmp;
+ 268   2          }
+ 269   1          else
+ 270   1          {
+ 271   2              return volt;
+ 272   2          }
+ 273   1      }
+ 274          
+ 275          /// @brief 用于快速切换滤波方式的函数指针数组
+ 276          uchar (*filtFuns[11])() =
+ 277              {
+ 278                  avgFilt,
+ 279                  slideavgFilt,
+ 280                  speedFilt,
+ 281                  amplimtFilt,
+ 282                  midFilt,
+ 283                  midavgFilt,
+ 284                  limtvgFilt,
+ 285                  onlastFilt,
+ 286                  weislidFlit,
+ 287                  debFilt,
+ 288                  debavgFilt,
+ 289          };
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    934    ----
+   CODE SIZE        =    938    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
