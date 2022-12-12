@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "AT89X52.H": "cpp",
-        "ABSACC.H": "cpp"
-    },
-    "C_Cpp.errorSquiggles": "disabled"
-}
