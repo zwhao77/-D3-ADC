@@ -10,8 +10,7 @@
 #define MAXDEB 5
 extern uchar volt;
 extern uchar port;
-uchar tmpPort = 200;
-uchar slidV[5] = {0,0,0,0,0};
+uchar slidV[5] = {0, 0, 0, 0, 0};
 uchar debnum = 0;
 
 /// @brief 平均值滤波
@@ -29,43 +28,26 @@ uchar avgFilt()
     {
         num += V[i];
     }
-    //return ((uchar)(num / 5));
-		return 0;//debug
+    return ((uchar)(num / 5));
 }
-
 
 /// @brief 滑动平均滤波
 /// @return 滤波后模拟量数值
 uchar slideavgFilt()
 {
     uchar i = 0;
-    uchar tmp;
     int num;
-    if (tmpPort != port)
+    for (i = 4; i > 0; i--)
     {
-        delay_nms(20);
-        tmp = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            slidV[i] = tmp;
-        }
-        return tmp;
+        slidV[i + 1] = slidV[i];
     }
-    else
+    slidV[0] = getVolt();
+    for (i = 0; i < 5; i++)
     {
-        for (i = 4; i > 0; i--)
-        {
-            slidV[i + 1] = slidV[i];
-        }
-        slidV[0] = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            num += slidV[i];
-        }
+        num += slidV[i];
     }
     return ((uchar)num / 5);
 }
-
 
 /// @brief 限速滤波
 /// @return 滤波后模拟量数值
@@ -174,7 +156,7 @@ uchar limtvgFilt()
         V[i] = getVolt();
         if (abs(V[i] - V[i - 1]) > LV)
         {
-             V[i] = V[i - 1];
+            V[i] = V[i - 1];
         }
     }
     for (i = 0; i < 5; i++)
@@ -196,28 +178,15 @@ uchar onlastFilt()
 uchar weislidFlit()
 {
     uchar i = 0;
-    uchar tmp;
     int num;
-    if (tmpPort != port)
+    for (i = 4; i > 0; i--)
     {
-        tmp = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            slidV[i] = tmp;
-        }
-        return tmp;
+        slidV[i + 1] = slidV[i];
     }
-    else
+    slidV[0] = getVolt();
+    for (i = 0; i < 5; i++)
     {
-        for (i = 4; i > 0; i--)
-        {
-            slidV[i + 1] = slidV[i];
-        }
-        slidV[0] = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            num += (i + 1) * slidV[i];
-        }
+        num += (i + 1) * slidV[i];
     }
     return ((uchar)num / (15 * 5));
 }

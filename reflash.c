@@ -6,11 +6,15 @@
 #include "DAC0832.h"
 #include "voltCalc.h"
 #include "delay.h"
-uchar autoNum; // 用于自动模式下统计读取数据次数
-uchar tmport;  // 用于判断端口切换
-static bit lastFlag; //记录上一次的autoflag状态
+uchar autoNum;		 // 用于自动模式下统计读取数据次数
+uchar tmport;		 // 用于判断端口切换
+static bit lastFlag; // 记录上一次的autoflag状态
+
+extern uchar slidV[5];
+
 void reflash()
 {
+	uchar i;
 	// 若为自动模式，则在50*20=1000ms后切换
 	if (flagAuto == 1)
 	{
@@ -51,6 +55,10 @@ void reflash()
 	{
 		delay_nms(100);
 		volt = getVolt();
+		for (i = 0; i < 5; i++)
+		{
+			slidV[i] = volt;
+		}
 		tmport = port;
 	}
 	else

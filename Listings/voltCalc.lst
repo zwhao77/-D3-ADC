@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 12:43:57 PAGE 1   
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 13:53:17 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE VOLTCALC
@@ -20,300 +20,269 @@ line level    source
   10          #define MAXDEB 5
   11          extern uchar volt;
   12          extern uchar port;
-  13          uchar tmpPort = 200;
-  14          uchar slidV[5] = {0,0,0,0,0};
-  15          uchar debnum = 0;
-  16          
-  17          /// @brief 平均值滤波
-  18          /// @return 滤波后模拟量数值
-  19          uchar avgFilt()
-  20          {
-  21   1          uchar V[5];
-  22   1          int num = 0;
-  23   1          int i = 0;
-  24   1          for (i = 0; i < 5; i++)
-  25   1          {
-  26   2              V[i] = getVolt();
-  27   2          }
-  28   1          for (i = 0; i < 5; i++)
-  29   1          {
-  30   2              num += V[i];
-  31   2          }
-  32   1          //return ((uchar)(num / 5));
-  33   1          return 0;//debug
-  34   1      }
-  35          
-  36          
-  37          /// @brief 滑动平均滤波
-  38          /// @return 滤波后模拟量数值
-  39          uchar slideavgFilt()
-  40          {
-  41   1          uchar i = 0;
-  42   1          uchar tmp;
-  43   1          int num;
-  44   1          if (tmpPort != port)
-  45   1          {
-  46   2              delay_nms(20);
-  47   2              tmp = getVolt();
-  48   2              for (i = 0; i < 5; i++)
-  49   2              {
-  50   3                  slidV[i] = tmp;
-  51   3              }
-  52   2              return tmp;
-  53   2          }
-  54   1          else
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 12:43:57 PAGE 2   
+  13          uchar slidV[5] = {0, 0, 0, 0, 0};
+  14          uchar debnum = 0;
+  15          
+  16          /// @brief 平均值滤波
+  17          /// @return 滤波后模拟量数值
+  18          uchar avgFilt()
+  19          {
+  20   1          uchar V[5];
+  21   1          int num = 0;
+  22   1          int i = 0;
+  23   1          for (i = 0; i < 5; i++)
+  24   1          {
+  25   2              V[i] = getVolt();
+  26   2          }
+  27   1          for (i = 0; i < 5; i++)
+  28   1          {
+  29   2              num += V[i];
+  30   2          }
+  31   1          return ((uchar)(num / 5));
+  32   1      }
+  33          
+  34          /// @brief 滑动平均滤波
+  35          /// @return 滤波后模拟量数值
+  36          uchar slideavgFilt()
+  37          {
+  38   1          uchar i = 0;
+  39   1          int num;
+  40   1          for (i = 4; i > 0; i--)
+  41   1          {
+  42   2              slidV[i + 1] = slidV[i];
+  43   2          }
+  44   1          slidV[0] = getVolt();
+  45   1          for (i = 0; i < 5; i++)
+  46   1          {
+  47   2              num += slidV[i];
+  48   2          }
+  49   1          return ((uchar)num / 5);
+  50   1      }
+  51          
+  52          /// @brief 限速滤波
+  53          /// @return 滤波后模拟量数值
+  54          uchar speedFilt()
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 13:53:17 PAGE 2   
 
-  55   1          {
-  56   2              for (i = 4; i > 0; i--)
-  57   2              {
-  58   3                  slidV[i + 1] = slidV[i];
-  59   3              }
-  60   2              slidV[0] = getVolt();
-  61   2              for (i = 0; i < 5; i++)
-  62   2              {
-  63   3                  num += slidV[i];
-  64   3              }
-  65   2          }
-  66   1          return ((uchar)num / 5);
-  67   1      }
-  68          
-  69          
-  70          /// @brief 限速滤波
-  71          /// @return 滤波后模拟量数值
-  72          uchar speedFilt()
-  73          {
-  74   1          uchar V[3];
-  75   1          V[0] = getVolt();
-  76   1          V[1] = getVolt();
-  77   1          if (abs(V[0] - V[1]) <= DV)
-  78   1          {
-  79   2              return V[1];
-  80   2          }
-  81   1          else
-  82   1          {
-  83   2              V[2] = getVolt();
-  84   2              if (abs(V[1] - V[2]) <= DV)
-  85   2              {
-  86   3                  return V[2];
-  87   3              }
-  88   2              else
-  89   2              {
-  90   3                  return ((V[2] + V[3]) / 2);
-  91   3              }
-  92   2          }
-  93   1      }
-  94          
-  95          /// @brief 限幅滤波
-  96          /// @return 滤波后模拟量数值
-  97          uchar amplimtFilt()
-  98          {
-  99   1          uchar tmp = getVolt();
- 100   1          if (abs(volt - tmp) < LV)
- 101   1          {
- 102   2              return tmp;
- 103   2          }
- 104   1          else
- 105   1          {
- 106   2              return volt;
- 107   2          }
- 108   1      }
- 109          
- 110          /// @brief 中位数滤波
- 111          /// @return 滤波后模拟量数值
- 112          uchar midFilt()
- 113          {
- 114   1          uchar V[5];
- 115   1          uchar i, j;
- 116   1          uchar tmp = 0;
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 12:43:57 PAGE 3   
+  55          {
+  56   1          uchar V[3];
+  57   1          V[0] = getVolt();
+  58   1          V[1] = getVolt();
+  59   1          if (abs(V[0] - V[1]) <= DV)
+  60   1          {
+  61   2              return V[1];
+  62   2          }
+  63   1          else
+  64   1          {
+  65   2              V[2] = getVolt();
+  66   2              if (abs(V[1] - V[2]) <= DV)
+  67   2              {
+  68   3                  return V[2];
+  69   3              }
+  70   2              else
+  71   2              {
+  72   3                  return ((V[2] + V[3]) / 2);
+  73   3              }
+  74   2          }
+  75   1      }
+  76          
+  77          /// @brief 限幅滤波
+  78          /// @return 滤波后模拟量数值
+  79          uchar amplimtFilt()
+  80          {
+  81   1          uchar tmp = getVolt();
+  82   1          if (abs(volt - tmp) < LV)
+  83   1          {
+  84   2              return tmp;
+  85   2          }
+  86   1          else
+  87   1          {
+  88   2              return volt;
+  89   2          }
+  90   1      }
+  91          
+  92          /// @brief 中位数滤波
+  93          /// @return 滤波后模拟量数值
+  94          uchar midFilt()
+  95          {
+  96   1          uchar V[5];
+  97   1          uchar i, j;
+  98   1          uchar tmp = 0;
+  99   1          for (i = 0; i < 5; i++)
+ 100   1          {
+ 101   2              V[i] = getVolt();
+ 102   2          }
+ 103   1          for (i = 1; i < 5; i++)
+ 104   1          {
+ 105   2              for (j = 0; j < 5 - i; j++)
+ 106   2              {
+ 107   3                  if (V[j] > V[j + 1])
+ 108   3                  {
+ 109   4                      tmp = V[j];
+ 110   4                      V[j] = V[j + 1];
+ 111   4                      V[j + 1] = tmp;
+ 112   4                  }
+ 113   3              }
+ 114   2          }
+ 115   1          return V[2];
+ 116   1      }
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 13:53:17 PAGE 3   
 
- 117   1          for (i = 0; i < 5; i++)
- 118   1          {
- 119   2              V[i] = getVolt();
- 120   2          }
- 121   1          for (i = 1; i < 5; i++)
- 122   1          {
- 123   2              for (j = 0; j < 5 - i; j++)
- 124   2              {
- 125   3                  if (V[j] > V[j + 1])
- 126   3                  {
- 127   4                      tmp = V[j];
- 128   4                      V[j] = V[j + 1];
- 129   4                      V[j + 1] = tmp;
- 130   4                  }
- 131   3              }
- 132   2          }
- 133   1          return V[2];
- 134   1      }
- 135          
- 136          /// @brief 中位平均滤波
- 137          /// @return 滤波后模拟量数值
- 138          uchar midavgFilt()
- 139          {
- 140   1          uchar V[5];
- 141   1          uchar i, j;
- 142   1          uchar tmp = 0;
- 143   1          int num = 0;
- 144   1          for (i = 0; i < 5; i++)
- 145   1          {
- 146   2              V[i] = getVolt();
- 147   2          }
- 148   1          for (i = 1; i < 5; i++)
- 149   1          {
- 150   2              for (j = 0; j < 5 - i; j++)
- 151   2              {
- 152   3                  if (V[j] > V[j + 1])
- 153   3                  {
- 154   4                      tmp = V[j];
- 155   4                      V[j] = V[j + 1];
- 156   4                      V[j + 1] = tmp;
- 157   4                  }
- 158   3              }
- 159   2          }
- 160   1          num = (V[1] + V[2] + V[3]);
- 161   1          return ((uchar)(num / 3));
- 162   1      }
- 163          
- 164          /// @brief 限幅平均滤波
- 165          /// @return 滤波后模拟量数值
- 166          uchar limtvgFilt()
- 167          {
- 168   1          uchar V[5];
- 169   1          int num = 0;
- 170   1          int i = 0;
- 171   1          V[0] = volt;
- 172   1          for (i = 1; i < 5; i++)
- 173   1          {
- 174   2              V[i] = getVolt();
- 175   2              if (abs(V[i] - V[i - 1]) > LV)
- 176   2              {
- 177   3                   V[i] = V[i - 1];
- 178   3              }
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 12:43:57 PAGE 4   
+ 117          
+ 118          /// @brief 中位平均滤波
+ 119          /// @return 滤波后模拟量数值
+ 120          uchar midavgFilt()
+ 121          {
+ 122   1          uchar V[5];
+ 123   1          uchar i, j;
+ 124   1          uchar tmp = 0;
+ 125   1          int num = 0;
+ 126   1          for (i = 0; i < 5; i++)
+ 127   1          {
+ 128   2              V[i] = getVolt();
+ 129   2          }
+ 130   1          for (i = 1; i < 5; i++)
+ 131   1          {
+ 132   2              for (j = 0; j < 5 - i; j++)
+ 133   2              {
+ 134   3                  if (V[j] > V[j + 1])
+ 135   3                  {
+ 136   4                      tmp = V[j];
+ 137   4                      V[j] = V[j + 1];
+ 138   4                      V[j + 1] = tmp;
+ 139   4                  }
+ 140   3              }
+ 141   2          }
+ 142   1          num = (V[1] + V[2] + V[3]);
+ 143   1          return ((uchar)(num / 3));
+ 144   1      }
+ 145          
+ 146          /// @brief 限幅平均滤波
+ 147          /// @return 滤波后模拟量数值
+ 148          uchar limtvgFilt()
+ 149          {
+ 150   1          uchar V[5];
+ 151   1          int num = 0;
+ 152   1          int i = 0;
+ 153   1          V[0] = volt;
+ 154   1          for (i = 1; i < 5; i++)
+ 155   1          {
+ 156   2              V[i] = getVolt();
+ 157   2              if (abs(V[i] - V[i - 1]) > LV)
+ 158   2              {
+ 159   3                  V[i] = V[i - 1];
+ 160   3              }
+ 161   2          }
+ 162   1          for (i = 0; i < 5; i++)
+ 163   1          {
+ 164   2              num += V[i];
+ 165   2          }
+ 166   1          return ((uchar)(num / 5));
+ 167   1      }
+ 168          
+ 169          /// @brief 一阶滞后滤波
+ 170          /// @return 滤波后模拟量数值
+ 171          uchar onlastFilt()
+ 172          {
+ 173   1          return ((1 - LASTA) * volt + LASTA * getVolt());
+ 174   1      }
+ 175          
+ 176          /// @brief 加权递推滤波
+ 177          /// @return 滤波后模拟量数值
+ 178          uchar weislidFlit()
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 13:53:17 PAGE 4   
 
- 179   2          }
- 180   1          for (i = 0; i < 5; i++)
- 181   1          {
- 182   2              num += V[i];
- 183   2          }
- 184   1          return ((uchar)(num / 5));
- 185   1      }
- 186          
- 187          /// @brief 一阶滞后滤波
- 188          /// @return 滤波后模拟量数值
- 189          uchar onlastFilt()
- 190          {
- 191   1          return ((1 - LASTA) * volt + LASTA * getVolt());
+ 179          {
+ 180   1          uchar i = 0;
+ 181   1          int num;
+ 182   1          for (i = 4; i > 0; i--)
+ 183   1          {
+ 184   2              slidV[i + 1] = slidV[i];
+ 185   2          }
+ 186   1          slidV[0] = getVolt();
+ 187   1          for (i = 0; i < 5; i++)
+ 188   1          {
+ 189   2              num += (i + 1) * slidV[i];
+ 190   2          }
+ 191   1          return ((uchar)num / (15 * 5));
  192   1      }
  193          
- 194          /// @brief 加权递推滤波
+ 194          /// @brief 消抖滤波
  195          /// @return 滤波后模拟量数值
- 196          uchar weislidFlit()
+ 196          uchar debFilt()
  197          {
- 198   1          uchar i = 0;
- 199   1          uchar tmp;
- 200   1          int num;
- 201   1          if (tmpPort != port)
- 202   1          {
- 203   2              tmp = getVolt();
- 204   2              for (i = 0; i < 5; i++)
- 205   2              {
- 206   3                  slidV[i] = tmp;
- 207   3              }
- 208   2              return tmp;
- 209   2          }
- 210   1          else
- 211   1          {
- 212   2              for (i = 4; i > 0; i--)
- 213   2              {
- 214   3                  slidV[i + 1] = slidV[i];
- 215   3              }
- 216   2              slidV[0] = getVolt();
- 217   2              for (i = 0; i < 5; i++)
- 218   2              {
- 219   3                  num += (i + 1) * slidV[i];
- 220   3              }
- 221   2          }
- 222   1          return ((uchar)num / (15 * 5));
- 223   1      }
- 224          
- 225          /// @brief 消抖滤波
- 226          /// @return 滤波后模拟量数值
- 227          uchar debFilt()
- 228          {
- 229   1          uchar tmp = getVolt();
- 230   1          if (volt == tmp)
- 231   1          {
- 232   2              debnum = 0;
+ 198   1          uchar tmp = getVolt();
+ 199   1          if (volt == tmp)
+ 200   1          {
+ 201   2              debnum = 0;
+ 202   2          }
+ 203   1          else
+ 204   1          {
+ 205   2              debnum++;
+ 206   2          }
+ 207   1          if (debnum > MAXDEB)
+ 208   1          {
+ 209   2              debnum = 0;
+ 210   2              return tmp;
+ 211   2          }
+ 212   1          else
+ 213   1          {
+ 214   2              return volt;
+ 215   2          }
+ 216   1      }
+ 217          
+ 218          /// @brief 限幅消抖滤波
+ 219          /// @return 滤波后模拟量数值
+ 220          uchar debavgFilt()
+ 221          {
+ 222   1          uchar tmp = getVolt();
+ 223   1          if (volt == tmp)
+ 224   1          {
+ 225   2              debnum = 0;
+ 226   2          }
+ 227   1          else
+ 228   1          {
+ 229   2              if (abs(volt - tmp) < LV)
+ 230   2              {
+ 231   3                  debnum++;
+ 232   3              }
  233   2          }
- 234   1          else
+ 234   1          if (debnum > MAXDEB)
  235   1          {
- 236   2              debnum++;
- 237   2          }
- 238   1          if (debnum > MAXDEB)
- 239   1          {
- 240   2              debnum = 0;
-C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 12:43:57 PAGE 5   
+ 236   2              debnum = 0;
+ 237   2              return tmp;
+ 238   2          }
+ 239   1          else
+ 240   1          {
+C51 COMPILER V9.60.0.0   VOLTCALC                                                          12/13/2022 13:53:17 PAGE 5   
 
- 241   2              return tmp;
+ 241   2              return volt;
  242   2          }
- 243   1          else
- 244   1          {
- 245   2              return volt;
- 246   2          }
- 247   1      }
- 248          
- 249          /// @brief 限幅消抖滤波
- 250          /// @return 滤波后模拟量数值
- 251          uchar debavgFilt()
- 252          {
- 253   1          uchar tmp = getVolt();
- 254   1          if (volt == tmp)
- 255   1          {
- 256   2              debnum = 0;
- 257   2          }
- 258   1          else
- 259   1          {
- 260   2              if (abs(volt - tmp) < LV)
- 261   2              {
- 262   3                  debnum++;
- 263   3              }
- 264   2          }
- 265   1          if (debnum > MAXDEB)
- 266   1          {
- 267   2              debnum = 0;
- 268   2              return tmp;
- 269   2          }
- 270   1          else
- 271   1          {
- 272   2              return volt;
- 273   2          }
- 274   1      }
- 275          
- 276          /// @brief 用于快速切换滤波方式的函数指针数组
- 277          uchar (*filtFuns[11])() =
- 278              {
- 279                  avgFilt,
- 280                  slideavgFilt,
- 281                  speedFilt,
- 282                  amplimtFilt,
- 283                  midFilt,
- 284                  midavgFilt,
- 285                  limtvgFilt,
- 286                  onlastFilt,
- 287                  weislidFlit,
- 288                  debFilt,
- 289                  debavgFilt,
- 290          };
+ 243   1      }
+ 244          
+ 245          /// @brief 用于快速切换滤波方式的函数指针数组
+ 246          uchar (*filtFuns[11])() =
+ 247              {
+ 248                  avgFilt,
+ 249                  slideavgFilt,
+ 250                  speedFilt,
+ 251                  amplimtFilt,
+ 252                  midFilt,
+ 253                  midavgFilt,
+ 254                  limtvgFilt,
+ 255                  onlastFilt,
+ 256                  weislidFlit,
+ 257                  debFilt,
+ 258                  debavgFilt,
+ 259          };
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    930    ----
+   CODE SIZE        =    864    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     40      43
+   DATA SIZE        =     39      43
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/13/2022 12:43:56 PAGE 1   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/13/2022 13:53:16 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE REFLASH
@@ -16,81 +16,89 @@ line level    source
    6          #include "DAC0832.h"
    7          #include "voltCalc.h"
    8          #include "delay.h"
-   9          uchar autoNum; // 用于自动模式下统计读取数据次数
-  10          uchar tmport;  // 用于判断端口切换
-  11          static bit lastFlag; //记录上一次的autoflag状态
-  12          void reflash()
-  13          {
-  14   1        // 若为自动模式，则在50*20=1000ms后切换
-  15   1        if (flagAuto == 1)
-  16   1        {
-  17   2          if (lastFlag != flagAuto)
-  18   2          {
-  19   3            Init50ms();
-  20   3          }
-  21   2          if (autoNum > (2 * 20))
+   9          uchar autoNum;     // 用于自动模式下统计读取数据次数
+  10          uchar tmport;    // 用于判断端口切换
+  11          static bit lastFlag; // 记录上一次的autoflag状态
+  12          
+  13          extern uchar slidV[5];
+  14          
+  15          void reflash()
+  16          {
+  17   1        uchar i;
+  18   1        // 若为自动模式，则在50*20=1000ms后切换
+  19   1        if (flagAuto == 1)
+  20   1        {
+  21   2          if (lastFlag != flagAuto)
   22   2          {
-  23   3            autoNum = 0;
-  24   3            port++;
-  25   3            if (port > 7)
-  26   3            {
-  27   4              port = 0;
-  28   4            }
-  29   3          }
-  30   2        }
-  31   1        else
-  32   1        {
-  33   2          Stop50ms();
-  34   2          autoNum = 0;
-  35   2          port = P1;
-  36   2          port = port & 0x0F;
-  37   2        }
-  38   1        lastFlag = flagAuto;
-  39   1        // debug:读取滤波方式
-  40   1        filt = P1;
-  41   1        filt = filt & 0xF0;
-  42   1        filt = filt >> 4;
-  43   1        if (filt > 10)
-  44   1        {
-  45   2          filt = 10;
-  46   2        }
-  47   1        pushFilt();
-  48   1        // 数据刷新
-  49   1        pushPort();
-  50   1        if (tmport != port) // 判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
-  51   1        {
-  52   2          delay_nms(100);
-  53   2          volt = getVolt();
-  54   2          tmport = port;
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/13/2022 12:43:56 PAGE 2   
+  23   3            Init50ms();
+  24   3          }
+  25   2          if (autoNum > (2 * 20))
+  26   2          {
+  27   3            autoNum = 0;
+  28   3            port++;
+  29   3            if (port > 7)
+  30   3            {
+  31   4              port = 0;
+  32   4            }
+  33   3          }
+  34   2        }
+  35   1        else
+  36   1        {
+  37   2          Stop50ms();
+  38   2          autoNum = 0;
+  39   2          port = P1;
+  40   2          port = port & 0x0F;
+  41   2        }
+  42   1        lastFlag = flagAuto;
+  43   1        // debug:读取滤波方式
+  44   1        filt = P1;
+  45   1        filt = filt & 0xF0;
+  46   1        filt = filt >> 4;
+  47   1        if (filt > 10)
+  48   1        {
+  49   2          filt = 10;
+  50   2        }
+  51   1        pushFilt();
+  52   1        // 数据刷新
+  53   1        pushPort();
+  54   1        if (tmport != port) // 判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/13/2022 13:53:16 PAGE 2   
 
-  55   2        }
-  56   1        else
-  57   1        {
-  58   2          volt = filtFuns[filt](); // 滤波功能函数指针数组，功能号见下
-  59   2        }
-  60   1        pushVolt();
-  61   1        reflash0832();
-  62   1      }
-  63          /*
-  64          | 序号 | 功能         | 函数名               |
-  65          | ---- | ------------ | -------------------- |
-  66          | 0    | 平均值滤波   | uchar avgFilt()      |
-  67          | 1    | 滑动平均滤波 | uchar slideavgFilt() |
-  68          | 2    | 限速滤波     | uchar speedFilt()    |
-  69          | 3    | 限幅滤波     | uchar amplimtFilt()  |
-  70          | 4    | 中位数滤波   | uchar midFilt()      |
-  71          | 5    | 中位平均滤波 | uchar midavgFilt()   |
-  72          | 6    | 限幅平均滤波 | uchar limtvgFilt()   |
-  73          | 7    | 一阶滞后滤波 | uchar onlastFilt()   |
-  74          | 8    | 加权递推     | uchar weislidFlit()  |
-  75          | 9    | 消抖滤波     | uchar debFilt()      |
-  76          | 10   | 限幅消抖滤波 | uchar debavgFilt()   |
-  77          */
+  55   1        {
+  56   2          delay_nms(100);
+  57   2          volt = getVolt();
+  58   2          for (i = 0; i < 5; i++)
+  59   2          {
+  60   3            slidV[i] = volt;
+  61   3          }
+  62   2          tmport = port;
+  63   2        }
+  64   1        else
+  65   1        {
+  66   2          volt = filtFuns[filt](); // 滤波功能函数指针数组，功能号见下
+  67   2        }
+  68   1        pushVolt();
+  69   1        reflash0832();
+  70   1      }
+  71          /*
+  72          | 序号 | 功能         | 函数名               |
+  73          | ---- | ------------ | -------------------- |
+  74          | 0    | 平均值滤波   | uchar avgFilt()      |
+  75          | 1    | 滑动平均滤波 | uchar slideavgFilt() |
+  76          | 2    | 限速滤波     | uchar speedFilt()    |
+  77          | 3    | 限幅滤波     | uchar amplimtFilt()  |
+  78          | 4    | 中位数滤波   | uchar midFilt()      |
+  79          | 5    | 中位平均滤波 | uchar midavgFilt()   |
+  80          | 6    | 限幅平均滤波 | uchar limtvgFilt()   |
+  81          | 7    | 一阶滞后滤波 | uchar onlastFilt()   |
+  82          | 8    | 加权递推     | uchar weislidFlit()  |
+  83          | 9    | 消抖滤波     | uchar debFilt()      |
+  84          | 10   | 限幅消抖滤波 | uchar debavgFilt()   |
+  85          */
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    142    ----
+   CODE SIZE        =    163    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
