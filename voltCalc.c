@@ -11,7 +11,7 @@
 extern uchar volt;
 extern uchar port;
 uchar tmpPort = 200;
-uchar slidV[5];
+uchar slidV[5] = {0,0,0,0,0};
 uchar debnum = 0;
 
 /// @brief 平均值滤波
@@ -29,7 +29,8 @@ uchar avgFilt()
     {
         num += V[i];
     }
-    return ((uchar)(num / 5));
+    //return ((uchar)(num / 5));
+		return 0;//debug
 }
 
 

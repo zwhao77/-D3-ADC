@@ -26,3 +26,11 @@ void pushPort()
 	ioC = port;
 	CS_8155 = 1;
 }
+
+/// @brief debug:向B口输出滤波方式
+void pushFilt()
+{
+	CS_8155 = 0;
+	ioB = filt;
+	CS_8155 = 1;
+}

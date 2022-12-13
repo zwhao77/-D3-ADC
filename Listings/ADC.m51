@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/12/2022  19:03:53  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    12/13/2022  12:43:57  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -42,44 +42,53 @@ LINK MAP OF MODULE:  .\Objects\ADC (MAIN)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     0028H     UNIT         ?DT?VOLTCALC
-            DATA    0030H     0009H     UNIT         _DATA_GROUP_
-            DATA    0039H     0003H     UNIT         ?DT?REFLASH
-            DATA    003CH     0002H     UNIT         ?DT?INIT
-            IDATA   003EH     0001H     UNIT         ?STACK
+            DATA    0008H     0009H     UNIT         _DATA_GROUP_
+            DATA    0011H     0003H     UNIT         ?DT?INIT
+            DATA    0014H     0002H     UNIT         ?DT?REFLASH
+                    0016H     000AH                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         ?BI?REFLASH
+                    0020H.1   0000H.7                *** GAP ***
+            DATA    0021H     0028H     UNIT         ?DT?VOLTCALC
+            IDATA   0049H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     036EH     UNIT         ?C?LIB_CODE
-            CODE    0371H     008CH     UNIT         ?C_C51STARTUP
-            CODE    03FDH     008BH     UNIT         ?PR?LIMTVGFILT?VOLTCALC
-            CODE    0488H     007DH     UNIT         ?PR?MIDAVGFILT?VOLTCALC
-            CODE    0505H     0076H     UNIT         ?PR?WEISLIDFLIT?VOLTCALC
-            CODE    057BH     0075H     UNIT         ?PR?REFLASH?REFLASH
-            CODE    05F0H     006FH     UNIT         ?PR?SLIDEAVGFILT?VOLTCALC
-            CODE    065FH     0061H     UNIT         ?PR?MIDFILT?VOLTCALC
-            CODE    06C0H     0057H     UNIT         ?PR?AVGFILT?VOLTCALC
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  19:03:53  PAGE 2
+            CODE    0003H     0016H     UNIT         ?PR?INIT50MS?DELAY
+                    0019H     0002H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     036EH     UNIT         ?C?LIB_CODE
+            CODE    038CH     008EH     UNIT         ?PR?REFLASH?REFLASH
+            CODE    041AH     008CH     UNIT         ?C_C51STARTUP
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/13/2022  12:43:57  PAGE 2
 
 
-            CODE    0717H     004BH     UNIT         ?PR?SPEEDFILT?VOLTCALC
-            CODE    0762H     003DH     UNIT         ?PR?DEBAVGFILT?VOLTCALC
-            CODE    079FH     003AH     UNIT         ?PR?ONLASTFILT?VOLTCALC
-            CODE    07D9H     0031H     UNIT         ?C_INITSEG
-            CODE    080AH     0022H     UNIT         ?PR?AMPLIMTFILT?VOLTCALC
-            CODE    082CH     0021H     UNIT         ?PR?DEBFILT?VOLTCALC
-            CODE    084DH     001CH     UNIT         ?PR?_DELAY_NMS?DELAY
-            CODE    0869H     0015H     UNIT         ?PR?INIT8155?IO8155
-            CODE    087EH     0011H     UNIT         ?PR?_DELAY_NUS?DELAY
-            CODE    088FH     0010H     UNIT         ?PR?INIT0808?ADC0808
-            CODE    089FH     0010H     UNIT         ?PR?GETVOLT?ADC0808
-            CODE    08AFH     0010H     UNIT         ?PR?INIT0832?DAC0832
-            CODE    08BFH     000FH     UNIT         ?PR?MAIN?MAIN
-            CODE    08CEH     000CH     UNIT         ?PR?_ABS?ABS
-            CODE    08DAH     000AH     UNIT         ?PR?PUSHVOLT?IO8155
-            CODE    08E4H     000AH     UNIT         ?PR?PUSHPORT?IO8155
-            CODE    08EEH     0009H     UNIT         ?PR?INIT?INIT
-            CODE    08F7H     0009H     UNIT         ?PR?REFLASH0832?DAC0832
+            CODE    04A6H     008BH     UNIT         ?PR?LIMTVGFILT?VOLTCALC
+            CODE    0531H     007DH     UNIT         ?PR?MIDAVGFILT?VOLTCALC
+            CODE    05AEH     0076H     UNIT         ?PR?WEISLIDFLIT?VOLTCALC
+            CODE    0624H     006FH     UNIT         ?PR?SLIDEAVGFILT?VOLTCALC
+            CODE    0693H     0061H     UNIT         ?PR?MIDFILT?VOLTCALC
+            CODE    06F4H     004FH     UNIT         ?PR?AVGFILT?VOLTCALC
+            CODE    0743H     004BH     UNIT         ?PR?SPEEDFILT?VOLTCALC
+            CODE    078EH     003DH     UNIT         ?PR?DEBAVGFILT?VOLTCALC
+            CODE    07CBH     003BH     UNIT         ?C_INITSEG
+            CODE    0806H     003AH     UNIT         ?PR?ONLASTFILT?VOLTCALC
+            CODE    0840H     0022H     UNIT         ?PR?AMPLIMTFILT?VOLTCALC
+            CODE    0862H     0021H     UNIT         ?PR?DEBFILT?VOLTCALC
+            CODE    0883H     001CH     UNIT         ?PR?_DELAY_NMS?DELAY
+            CODE    089FH     0015H     UNIT         ?PR?INIT8155?IO8155
+            CODE    08B4H     0011H     UNIT         ?PR?_DELAY_NUS?DELAY
+            CODE    08C5H     0010H     UNIT         ?PR?INIT0808?ADC0808
+            CODE    08D5H     0010H     UNIT         ?PR?GETVOLT?ADC0808
+            CODE    08E5H     0010H     UNIT         ?PR?INIT0832?DAC0832
+            CODE    08F5H     000FH     UNIT         ?PR?MAIN?MAIN
+            CODE    0904H     000CH     UNIT         ?PR?_ABS?ABS
+            CODE    0910H     000AH     UNIT         ?PR?PUSHVOLT?IO8155
+            CODE    091AH     000AH     UNIT         ?PR?PUSHPORT?IO8155
+            CODE    0924H     000AH     UNIT         ?PR?PUSHFILT?IO8155
+            CODE    092EH     0009H     UNIT         ?PR?INIT?INIT
+            CODE    0937H     0009H     UNIT         ?PR?REFLASH0832?DAC0832
+            CODE    0940H     0009H     UNIT         ?PR?TIMER1?DELAY
+            CODE    0949H     0007H     UNIT         ?PR?STOP50MS?DELAY
 
 
 
@@ -104,9 +113,15 @@ SEGMENT                             DATA_GROUP
   +--> ?PR?INIT0832?DAC0832
 
 ?PR?REFLASH?REFLASH               -----    -----
+  +--> ?PR?INIT50MS?DELAY
+  +--> ?PR?STOP50MS?DELAY
+  +--> ?PR?PUSHFILT?IO8155
   +--> ?PR?PUSHPORT?IO8155
   +--> ?PR?_DELAY_NMS?DELAY
   +--> ?PR?GETVOLT?ADC0808
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/13/2022  12:43:57  PAGE 3
+
+
   +--> ?PR?PUSHVOLT?IO8155
   +--> ?PR?REFLASH0832?DAC0832
 
@@ -119,9 +134,6 @@ SEGMENT                             DATA_GROUP
   +--> ?PR?SPEEDFILT?VOLTCALC
   +--> ?PR?AMPLIMTFILT?VOLTCALC
   +--> ?PR?MIDFILT?VOLTCALC
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  19:03:53  PAGE 3
-
-
   +--> ?PR?MIDAVGFILT?VOLTCALC
   +--> ?PR?LIMTVGFILT?VOLTCALC
   +--> ?PR?ONLASTFILT?VOLTCALC
@@ -129,43 +141,46 @@ SEGMENT                             DATA_GROUP
   +--> ?PR?DEBFILT?VOLTCALC
   +--> ?PR?DEBAVGFILT?VOLTCALC
 
-?PR?AVGFILT?VOLTCALC              0030H    0009H
+?PR?AVGFILT?VOLTCALC              0008H    0009H
   +--> ?PR?GETVOLT?ADC0808
 
-?PR?SLIDEAVGFILT?VOLTCALC         0030H    0002H
+?PR?SLIDEAVGFILT?VOLTCALC         0008H    0002H
   +--> ?PR?_DELAY_NMS?DELAY
   +--> ?PR?GETVOLT?ADC0808
 
-?PR?SPEEDFILT?VOLTCALC            0030H    0003H
+?PR?SPEEDFILT?VOLTCALC            0008H    0003H
   +--> ?PR?GETVOLT?ADC0808
   +--> ?PR?_ABS?ABS
 
-?PR?AMPLIMTFILT?VOLTCALC          0030H    0001H
+?PR?AMPLIMTFILT?VOLTCALC          0008H    0001H
   +--> ?PR?GETVOLT?ADC0808
   +--> ?PR?_ABS?ABS
 
-?PR?MIDFILT?VOLTCALC              0030H    0007H
+?PR?MIDFILT?VOLTCALC              0008H    0007H
   +--> ?PR?GETVOLT?ADC0808
 
-?PR?MIDAVGFILT?VOLTCALC           0030H    0009H
+?PR?MIDAVGFILT?VOLTCALC           0008H    0009H
   +--> ?PR?GETVOLT?ADC0808
 
-?PR?LIMTVGFILT?VOLTCALC           0030H    0009H
+?PR?LIMTVGFILT?VOLTCALC           0008H    0009H
   +--> ?PR?GETVOLT?ADC0808
   +--> ?PR?_ABS?ABS
 
 ?PR?ONLASTFILT?VOLTCALC           -----    -----
   +--> ?PR?GETVOLT?ADC0808
 
-?PR?WEISLIDFLIT?VOLTCALC          0030H    0002H
+?PR?WEISLIDFLIT?VOLTCALC          0008H    0002H
   +--> ?PR?GETVOLT?ADC0808
 
 ?PR?DEBFILT?VOLTCALC              -----    -----
   +--> ?PR?GETVOLT?ADC0808
 
-?PR?DEBAVGFILT?VOLTCALC           0030H    0001H
+?PR?DEBAVGFILT?VOLTCALC           0008H    0001H
   +--> ?PR?GETVOLT?ADC0808
   +--> ?PR?_ABS?ABS
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/13/2022  12:43:57  PAGE 4
+
 
 
 
@@ -175,51 +190,48 @@ SYMBOL TABLE OF MODULE:  .\Objects\ADC (MAIN)
   ----------------------------------
 
   -------         MODULE        ?C?FPADD
-  C:000AH         PUBLIC        ?C?FPADD
-  C:0006H         PUBLIC        ?C?FPSUB
+  C:0025H         PUBLIC        ?C?FPADD
+  C:0021H         PUBLIC        ?C?FPSUB
   -------         ENDMOD        ?C?FPADD
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  12/12/2022  19:03:53  PAGE 4
-
-
   -------         MODULE        ?C?FPMUL
-  C:00FBH         PUBLIC        ?C?FPMUL
+  C:0116H         PUBLIC        ?C?FPMUL
   -------         ENDMOD        ?C?FPMUL
 
   -------         MODULE        ?C?FCAST
-  C:020BH         PUBLIC        ?C?FCASTC
-  C:0206H         PUBLIC        ?C?FCASTI
-  C:0201H         PUBLIC        ?C?FCASTL
+  C:0226H         PUBLIC        ?C?FCASTC
+  C:0221H         PUBLIC        ?C?FCASTI
+  C:021CH         PUBLIC        ?C?FCASTL
   -------         ENDMOD        ?C?FCAST
 
   -------         MODULE        ?C?CASTF
-  C:023FH         PUBLIC        ?C?CASTF
+  C:025AH         PUBLIC        ?C?CASTF
   -------         ENDMOD        ?C?CASTF
 
   -------         MODULE        ?C?IMUL
-  C:02C0H         PUBLIC        ?C?IMUL
+  C:02DBH         PUBLIC        ?C?IMUL
   -------         ENDMOD        ?C?IMUL
 
   -------         MODULE        ?C?UIDIV
-  C:02D2H         PUBLIC        ?C?UIDIV
+  C:02EDH         PUBLIC        ?C?UIDIV
   -------         ENDMOD        ?C?UIDIV
 
   -------         MODULE        ?C?SIDIV
-  C:0327H         PUBLIC        ?C?SIDIV
+  C:0342H         PUBLIC        ?C?SIDIV
   -------         ENDMOD        ?C?SIDIV
 
   -------         MODULE        ?C?LNEG
-  C:035DH         PUBLIC        ?C?LNEG
+  C:0378H         PUBLIC        ?C?LNEG
   -------         ENDMOD        ?C?LNEG
 
   -------         MODULE        ?C?ICALL
-  C:036BH         PUBLIC        ?C?ICALL
-  C:036FH         PUBLIC        ?C?ICALL2
+  C:0386H         PUBLIC        ?C?ICALL
+  C:038AH         PUBLIC        ?C?ICALL2
   -------         ENDMOD        ?C?ICALL
 
   -------         MODULE        ABS
-  C:08CEH         PUBLIC        _ABS
+  C:0904H         PUBLIC        _ABS
   -------         ENDMOD        ABS
 
-Program Size: data=63.0 xdata=0 code=2304
+Program Size: data=63.1 xdata=0 code=2382
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

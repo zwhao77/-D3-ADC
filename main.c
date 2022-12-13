@@ -9,6 +9,6 @@ void main()
 	while (1)
 	{
 		reflash();
-		delay_nms(10);
+		delay_nms(20);
 	}
 }
