@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   INIT                                                              12/14/2022 09:20:51 PAGE 1   
+C51 COMPILER V9.60.0.0   INIT                                                              12/14/2022 12:13:10 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INIT
@@ -33,20 +33,24 @@ line level    source
   23   1        Init8155();
   24   1        Init0808();
   25   1        Init0832();
-  26   1        
-  27   1      }
-*** WARNING C280 IN LINE 22 OF Init.c: 'i': unreferenced local variable
+  26   1        volt = getVolt();
+  27   1        for (i = 0; i < 5; i++)
+  28   1        {
+  29   2          slidV[i] = volt;
+  30   2        }
+  31   1        pushVolt();
+  32   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =      9    ----
+   CODE SIZE        =     38    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      3       1
+   DATA SIZE        =      3    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

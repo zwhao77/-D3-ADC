@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   ADC0808                                                           12/14/2022 09:20:51 PAGE 1   
+C51 COMPILER V9.60.0.0   ADC0808                                                           12/14/2022 12:13:10 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ADC0808
@@ -18,7 +18,7 @@ line level    source
    8   1        unEN_0808 = 0;
    9   1        port = P1;
   10   1        port = port & 0x0F;
-  11   1        ioC = port;//第一次读取并设置端口
+  11   1        ioC = port; // 第一次读取并设置端口
   12   1        unEN_0808 = 1;
   13   1      }
   14          /// @brief 获取当前端口指向的模拟量
@@ -27,16 +27,17 @@ line level    source
   17          {
   18   1        uchar tmp;
   19   1        unEN_0808 = 0;
-  20   1        PBYTE[0xFF] = 0;//虚写启动，后续读取类似，地址均为虚拟
-  21   1        while (EOC == 1);//由于滤波过程中没有其他任务，故采用等待的方法
-  22   1        tmp = PBYTE[0xFF];
-  23   1        unEN_0808 = 1;
-  24   1        return tmp;
-  25   1      }
+  20   1        PBYTE[0xFF] = 0; // 虚写启动，后续读取类似，地址均为虚拟
+  21   1        for (tmp = 5; tmp > 0; tmp--);
+  22   1        while (EOC != 1); // 由于滤波过程中没有其他任务，故采用等待的方法
+  23   1        tmp = PBYTE[0xFF];
+  24   1        unEN_0808 = 1;
+  25   1        return tmp;
+  26   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     32    ----
+   CODE SIZE        =     47    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

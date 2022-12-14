@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/14/2022 09:20:51 PAGE 1   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/14/2022 12:13:10 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE REFLASH
@@ -62,7 +62,7 @@ line level    source
   52   1        // 数据刷新
   53   1        pushPort();
   54   1        if (tmport != port) // 判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/14/2022 09:20:51 PAGE 2   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/14/2022 12:13:10 PAGE 2   
 
   55   1        {
   56   2          delay_nms(100);
