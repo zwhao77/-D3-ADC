@@ -35,18 +35,20 @@ uchar avgFilt()
 /// @return 滤波后模拟量数值
 uchar slideavgFilt()
 {
-    uchar i = 0;
-    int num;
-    for (i = 4; i > 0; i--)
+    static uchar p = 0;
+    int num = 0;
+    int i;
+    p++;
+    if (p > 4)
     {
-        slidV[i + 1] = slidV[i];
+        p = 0;
     }
-    slidV[0] = getVolt();
+    slidV[p] = getVolt();
     for (i = 0; i < 5; i++)
     {
         num += slidV[i];
     }
-    return ((uchar)num / 5);
+    return ((uchar)(num / 5));
 }
 
 /// @brief 限速滤波
@@ -69,7 +71,7 @@ uchar speedFilt()
         }
         else
         {
-            return ((V[2] + V[3]) / 2);
+            return ((V[1] + V[2]) / 2);
         }
     }
 }
@@ -177,18 +179,25 @@ uchar onlastFilt()
 /// @return 滤波后模拟量数值
 uchar weislidFlit()
 {
-    uchar i = 0;
-    int num;
-    for (i = 4; i > 0; i--)
+    static uchar p = 0;
+    int num = 0;
+    int i;
+    p++;
+    if (p > 4)
     {
-        slidV[i + 1] = slidV[i];
+        p = 0;
     }
-    slidV[0] = getVolt();
+    slidV[p] = getVolt();
     for (i = 0; i < 5; i++)
     {
-        num += (i + 1) * slidV[i];
+        num += (p + 1) * slidV[p];
+        p++;
+        if (p > 4)
+        {
+            p = 0;
+        }
     }
-    return ((uchar)num / (15 * 5));
+    return ((uchar)(num / 15));
 }
 
 /// @brief 消抖滤波

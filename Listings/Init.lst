@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   INIT                                                              12/13/2022 13:53:16 PAGE 1   
+C51 COMPILER V9.60.0.0   INIT                                                              12/14/2022 09:20:51 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INIT
@@ -14,23 +14,28 @@ line level    source
    4          #include "ADC0808.h"
    5          #include "DAC0832.h"
    6          #define uchar unsigned char
-   7          #define ioSet PBYTE[0x00]//8155的命令字寄存器
-   8          #define ioA PBYTE[0x01]//8155的A端口
-   9          #define ioC PBYTE[0x03]//8155的C端口
+   7          #define ioSet PBYTE[0x00] // 8155的命令字寄存器
+   8          #define ioA PBYTE[0x01]   // 8155的A端口
+   9          #define ioC PBYTE[0x03]   // 8155的C端口
   10          
-  11          #define ioB PBYTE[0x02]//debug:8155的B端口
+  11          #define ioB PBYTE[0x02] // debug:8155的B端口
   12          
-  13          uchar port = 0x01;//待转换端口
-  14          uchar volt = 0x08;//得到的模拟量
-  15          uchar filt = 0x07;//debug:用于切换滤波方式
+  13          uchar port = 0x01; // 待转换端口
+  14          uchar volt = 0x08; // 得到的模拟量
+  15          uchar filt = 0x07; // debug:用于切换滤波方式
   16          
-  17          /// @brief 依次进行三个元件的初始化，为后续功能预留
-  18          void Init()
-  19          {
-  20   1        Init8155();
-  21   1        Init0808();
-  22   1        Init0832();
-  23   1      }
+  17          extern uchar slidV[5]; // 滑动平均
+  18          
+  19          /// @brief 依次进行三个元件的初始化，为后续功能预留
+  20          void Init()
+  21          {
+  22   1        uchar i;
+  23   1        Init8155();
+  24   1        Init0808();
+  25   1        Init0832();
+  26   1        
+  27   1      }
+*** WARNING C280 IN LINE 22 OF Init.c: 'i': unreferenced local variable
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
@@ -38,10 +43,10 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      3    ----
+   DATA SIZE        =      3       1
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
