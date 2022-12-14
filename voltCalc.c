@@ -4,14 +4,14 @@
 #include <math.h>
 #include "ADC0808.h"
 #include "delay.h"
-#define DV 20
+#define DV 5
 #define LV 50
 #define LASTA 0.3
 #define MAXDEB 5
 extern uchar volt;
 extern uchar port;
-uchar tmpPort = 200;
-uchar slidV[5];
+uchar slidV[5] = {0, 0, 0, 0, 0};
+uchar weight[5] = {1, 2, 4, 8, 16};
 uchar debnum = 0;
 
 /// @brief 平均值滤波
@@ -23,6 +23,7 @@ uchar avgFilt()
     int i = 0;
     for (i = 0; i < 5; i++)
     {
+        delay_nms(50);
         V[i] = getVolt();
     }
     for (i = 0; i < 5; i++)
@@ -32,39 +33,25 @@ uchar avgFilt()
     return ((uchar)(num / 5));
 }
 
-
 /// @brief 滑动平均滤波
 /// @return 滤波后模拟量数值
 uchar slideavgFilt()
 {
-    uchar i = 0;
-    uchar tmp;
-    int num;
-    if (tmpPort != port)
+    static uchar p = 0;
+    int num = 0;
+    int i;
+    p++;
+    if (p > 4)
     {
-        delay_nms(20);
-        tmp = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            slidV[i] = tmp;
-        }
-        return tmp;
+        p = 0;
     }
-    else
+    slidV[p] = getVolt();
+    for (i = 0; i < 5; i++)
     {
-        for (i = 4; i > 0; i--)
-        {
-            slidV[i + 1] = slidV[i];
-        }
-        slidV[0] = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            num += slidV[i];
-        }
+        num += slidV[i];
     }
-    return ((uchar)num / 5);
+    return ((uchar)(num / 5));
 }
-
 
 /// @brief 限速滤波
 /// @return 滤波后模拟量数值
@@ -86,7 +73,7 @@ uchar speedFilt()
         }
         else
         {
-            return ((V[2] + V[3]) / 2);
+            return ((V[1] + V[2]) / 2);
         }
     }
 }
@@ -173,7 +160,7 @@ uchar limtvgFilt()
         V[i] = getVolt();
         if (abs(V[i] - V[i - 1]) > LV)
         {
-             V[i] = V[i - 1];
+            V[i] = V[i - 1];
         }
     }
     for (i = 0; i < 5; i++)
@@ -194,31 +181,25 @@ uchar onlastFilt()
 /// @return 滤波后模拟量数值
 uchar weislidFlit()
 {
-    uchar i = 0;
-    uchar tmp;
-    int num;
-    if (tmpPort != port)
+    static uchar p = 0;
+    int num = 0;
+    int i;
+    slidV[p] = getVolt();
+    p++;
+    if (p > 4)
     {
-        tmp = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            slidV[i] = tmp;
-        }
-        return tmp;
+        p = 0;
     }
-    else
+    for (i = 0; i < 5; i++)
     {
-        for (i = 4; i > 0; i--)
+        num += weight[i] * (int)slidV[p];
+        p++;
+        if (p > 4)
         {
-            slidV[i + 1] = slidV[i];
-        }
-        slidV[0] = getVolt();
-        for (i = 0; i < 5; i++)
-        {
-            num += (i + 1) * slidV[i];
+            p = 0;
         }
     }
-    return ((uchar)num / (15 * 5));
+    return ((uchar)(num / 31));
 }
 
 /// @brief 消抖滤波

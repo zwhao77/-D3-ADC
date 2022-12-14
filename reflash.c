@@ -6,17 +6,25 @@
 #include "DAC0832.h"
 #include "voltCalc.h"
 #include "delay.h"
-int num;//用于自动模式下统计读取数据次数
-static uchar tmport;//用于判断端口切换
+uchar autoNum;		 // 用于自动模式下统计读取数据次数
+uchar tmport;		 // 用于判断端口切换
+static bit lastFlag; // 记录上一次的autoflag状态
+
+extern uchar slidV[5];
+
 void reflash()
 {
-	//若为自动模式，则在一个端口读取50次数据进行一次端口切换
+	uchar i;
+	// 若为自动模式，则在50*20=1000ms后切换
 	if (flagAuto == 1)
 	{
-		num++;
-		if (num > 50)
+		if (lastFlag != flagAuto)
 		{
-			num = 0;
+			Init50ms();
+		}
+		if (autoNum > (2 * 20))
+		{
+			autoNum = 0;
 			port++;
 			if (port > 7)
 			{
@@ -26,21 +34,36 @@ void reflash()
 	}
 	else
 	{
-		num = 0;
+		Stop50ms();
+		autoNum = 0;
 		port = P1;
 		port = port & 0x0F;
 	}
-	//数据刷新
+	lastFlag = flagAuto;
+	// debug:读取滤波方式
+	filt = P1;
+	filt = filt & 0xF0;
+	filt = filt >> 4;
+	if (filt > 10)
+	{
+		filt = 10;
+	}
+	pushFilt();
+	// 数据刷新
 	pushPort();
-	if (tmport =! port)//判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
+	if (tmport != port) // 判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
 	{
 		delay_nms(100);
 		volt = getVolt();
+		for (i = 0; i < 5; i++)
+		{
+			slidV[i] = volt;
+		}
 		tmport = port;
 	}
 	else
 	{
-		volt = filtFuns[port+3]();//滤波功能函数指针数组，功能号见下
+		volt = filtFuns[filt](); // 滤波功能函数指针数组，功能号见下
 	}
 	pushVolt();
 	reflash0832();
