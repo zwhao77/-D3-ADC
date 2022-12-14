@@ -4,13 +4,14 @@
 #include <math.h>
 #include "ADC0808.h"
 #include "delay.h"
-#define DV 20
+#define DV 5
 #define LV 50
 #define LASTA 0.3
 #define MAXDEB 5
 extern uchar volt;
 extern uchar port;
 uchar slidV[5] = {0, 0, 0, 0, 0};
+uchar weight[5] = {1, 2, 4, 8, 16};
 uchar debnum = 0;
 
 /// @brief 平均值滤波
@@ -22,6 +23,7 @@ uchar avgFilt()
     int i = 0;
     for (i = 0; i < 5; i++)
     {
+        delay_nms(50);
         V[i] = getVolt();
     }
     for (i = 0; i < 5; i++)
@@ -182,22 +184,22 @@ uchar weislidFlit()
     static uchar p = 0;
     int num = 0;
     int i;
+    slidV[p] = getVolt();
     p++;
     if (p > 4)
     {
         p = 0;
     }
-    slidV[p] = getVolt();
     for (i = 0; i < 5; i++)
     {
-        num += (p + 1) * slidV[p];
+        num += weight[i] * (int)slidV[p];
         p++;
         if (p > 4)
         {
             p = 0;
         }
     }
-    return ((uchar)(num / 15));
+    return ((uchar)(num / 31));
 }
 
 /// @brief 消抖滤波
