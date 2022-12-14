@@ -8,7 +8,7 @@ void Init0808()
 	unEN_0808 = 0;
 	port = P1;
 	port = port & 0x0F;
-	ioC = port;//第一次读取并设置端口
+	ioC = port; // 第一次读取并设置端口
 	unEN_0808 = 1;
 }
 /// @brief 获取当前端口指向的模拟量
@@ -17,8 +17,9 @@ uchar getVolt()
 {
 	uchar tmp;
 	unEN_0808 = 0;
-	PBYTE[0xFF] = 0;//虚写启动，后续读取类似，地址均为虚拟
-	while (EOC == 1);//由于滤波过程中没有其他任务，故采用等待的方法
+	PBYTE[0xFF] = 0; // 虚写启动，后续读取类似，地址均为虚拟
+	for (tmp = 5; tmp > 0; tmp--);
+	while (EOC != 1); // 由于滤波过程中没有其他任务，故采用等待的方法
 	tmp = PBYTE[0xFF];
 	unEN_0808 = 1;
 	return tmp;
