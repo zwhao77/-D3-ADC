@@ -1,15 +1,5 @@
-#define uchar unsigned char
-#include <AT89X52.h>
-#include <absacc.h>
-#include <math.h>
-#include "ADC0808.h"
-#include "delay.h"
-#define DV 5
-#define LV 50
-#define LASTA 0.3
-#define MAXDEB 5
-extern uchar volt;
-extern uchar port;
+#include "voltCalc.h"
+
 uchar slidV[5] = {0, 0, 0, 0, 0};
 uchar weight[5] = {1, 2, 4, 8, 16};
 uchar debnum = 0;

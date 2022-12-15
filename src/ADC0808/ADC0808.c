@@ -1,6 +1,3 @@
-#include <AT89X52.h>
-#include <absacc.h>
-#include "Init.h"
 #include "ADC0808.h"
 /// @brief ADC0808的初始化函数
 void Init0808()

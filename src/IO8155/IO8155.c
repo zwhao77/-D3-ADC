@@ -1,6 +1,3 @@
-#include <AT89X52.h>
-#include <absacc.h>
-#include "Init.h"
 #include "IO8155.h"
 /// @brief 初始化8155芯片
 void Init8155()

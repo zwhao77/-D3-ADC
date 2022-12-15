@@ -1,8 +1,6 @@
-#include "AT89X52.H"
+#include <AT89X52.h>
 
-#define uchar unsigned char
-
-extern uchar autoNum;
+#define  uchar unsigned char
 
 /// @brief  延时:i>=12 ,i的最小延时单12 us
 /// @param i 延时的时间长度，单位纳秒
@@ -19,13 +17,6 @@ void delay_nms(unsigned int n)
 	n = n + 1;
 	while (--n)
 		delay_nus(900); // 延时 1ms,同时进行补偿
-}
-
-void timer1() interrupt 3
-{
-	autoNum++;
-	TH1 = 0x24;
-	TL1 = 0xFA;	
 }
 
 void Init50ms()

@@ -1,16 +1,15 @@
-#include <AT89X52.h>
-#include <absacc.h>
-#include "Init.h"
-#include "IO8155.h"
-#include "ADC0808.h"
-#include "DAC0832.h"
-#include "voltCalc.h"
-#include "delay.h"
-uchar autoNum;		 // 用于自动模式下统计读取数据次数
-uchar tmport;		 // 用于判断端口切换
+#include "reflash.h"
+
+static uchar autoNum;		 // 用于自动模式下统计读取数据次数
+static uchar tmport;		 // 用于判断端口切换
 static bit lastFlag; // 记录上一次的autoflag状态
 
-extern uchar slidV[5];
+void timer1() interrupt 3
+{
+	autoNum++;
+	TH1 = 0x24;
+	TL1 = 0xFA;	
+}
 
 void reflash()
 {

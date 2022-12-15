@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   IO8155                                                            12/15/2022 14:50:53 PAGE 1   
+C51 COMPILER V9.60.0.0   IO8155                                                            12/15/2022 15:32:55 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IO8155
@@ -9,42 +9,39 @@ COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE src\IO8155\IO8155.c OPTIMIZE(8,S
 
 line level    source
 
-   1          #include <AT89X52.h>
-   2          #include <absacc.h>
-   3          #include "Init.h"
-   4          #include "IO8155.h"
-   5          /// @brief 初始化8155芯片
-   6          void Init8155()
-   7          {
-   8   1        CS_8155 = 0;
-   9   1        IOM_8155 = 1;
-  10   1        ioSet = 0x8F;//设置为三口均输出，定时器停止工作，禁用中断
-  11   1        ioA = volt;
-  12   1        ioC = port;//初始值送出
-  13   1        CS_8155 = 1;
-  14   1      }
-  15          /// @brief 向A口输出转换后电压的数字量
-  16          void pushVolt()
-  17          {
-  18   1        CS_8155 = 0;
-  19   1        ioA = volt;
-  20   1        CS_8155 = 1;
-  21   1      }
-  22          /// @brief 向C口输出待转换端口
-  23          void pushPort()
-  24          {
-  25   1        CS_8155 = 0;
-  26   1        ioC = port;
-  27   1        CS_8155 = 1;
-  28   1      }
-  29          
-  30          /// @brief debug:向B口输出滤波方式
-  31          void pushFilt()
-  32          {
-  33   1        CS_8155 = 0;
-  34   1        ioB = filt;
-  35   1        CS_8155 = 1;
-  36   1      }
+   1          #include "IO8155.h"
+   2          /// @brief 初始化8155芯片
+   3          void Init8155()
+   4          {
+   5   1        CS_8155 = 0;
+   6   1        IOM_8155 = 1;
+   7   1        ioSet = 0x8F;//设置为三口均输出，定时器停止工作，禁用中断
+   8   1        ioA = volt;
+   9   1        ioC = port;//初始值送出
+  10   1        CS_8155 = 1;
+  11   1      }
+  12          /// @brief 向A口输出转换后电压的数字量
+  13          void pushVolt()
+  14          {
+  15   1        CS_8155 = 0;
+  16   1        ioA = volt;
+  17   1        CS_8155 = 1;
+  18   1      }
+  19          /// @brief 向C口输出待转换端口
+  20          void pushPort()
+  21          {
+  22   1        CS_8155 = 0;
+  23   1        ioC = port;
+  24   1        CS_8155 = 1;
+  25   1      }
+  26          
+  27          /// @brief debug:向B口输出滤波方式
+  28          void pushFilt()
+  29          {
+  30   1        CS_8155 = 0;
+  31   1        ioB = filt;
+  32   1        CS_8155 = 1;
+  33   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

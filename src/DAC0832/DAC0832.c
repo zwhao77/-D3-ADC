@@ -1,6 +1,3 @@
-#include <AT89X52.h>
-#include <absacc.h>
-#include "Init.h"
 #include "DAC0832.h"
 /// @brief 初始化DAC0832芯片
 void Init0832()
