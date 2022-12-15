@@ -1,10 +1,11 @@
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/14/2022 12:13:10 PAGE 1   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/15/2022 14:50:53 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE REFLASH
-OBJECT MODULE PLACED IN .\Objects\reflash.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE reflash.c OPTIMIZE(8,SPEED) PRINT(.\Listings\reflash.lst) TABS(2) OBJECT
-                    -(.\Objects\reflash.obj)
+OBJECT MODULE PLACED IN .\output\reflash.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE src\reflash\reflash.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\src\ADC0808;.\sr
+                    -c\DAC0832;.\src\delay;.\src\Init;.\src\IO8155;.\src\reflash;.\src\voltCalc) DEBUG OBJECTEXTEND PRINT(.\Listings\reflash.
+                    -lst) TABS(2) OBJECT(.\output\reflash.obj)
 
 line level    source
 
@@ -61,9 +62,9 @@ line level    source
   51   1        pushFilt();
   52   1        // 数据刷新
   53   1        pushPort();
-  54   1        if (tmport != port) // 判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
-C51 COMPILER V9.60.0.0   REFLASH                                                           12/14/2022 12:13:10 PAGE 2   
+C51 COMPILER V9.60.0.0   REFLASH                                                           12/15/2022 14:50:53 PAGE 2   
 
+  54   1        if (tmport != port) // 判断端口切换，切换后初始数据直接读取，避免限幅滤波失效
   55   1        {
   56   2          delay_nms(100);
   57   2          volt = getVolt();

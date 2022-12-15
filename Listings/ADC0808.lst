@@ -1,10 +1,11 @@
-C51 COMPILER V9.60.0.0   ADC0808                                                           12/14/2022 12:13:10 PAGE 1   
+C51 COMPILER V9.60.0.0   ADC0808                                                           12/15/2022 14:50:52 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ADC0808
-OBJECT MODULE PLACED IN .\Objects\ADC0808.obj
-COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE ADC0808.c OPTIMIZE(8,SPEED) PRINT(.\Listings\ADC0808.lst) TABS(2) OBJECT
-                    -(.\Objects\ADC0808.obj)
+OBJECT MODULE PLACED IN .\output\ADC0808.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE src\ADC0808\ADC0808.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\src\ADC0808;.\sr
+                    -c\DAC0832;.\src\delay;.\src\Init;.\src\IO8155;.\src\reflash;.\src\voltCalc) DEBUG OBJECTEXTEND PRINT(.\Listings\ADC0808.
+                    -lst) TABS(2) OBJECT(.\output\ADC0808.obj)
 
 line level    source
 

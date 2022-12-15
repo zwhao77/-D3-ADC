@@ -1,10 +1,11 @@
-".\Objects\main.obj",
-".\Objects\Init.obj",
-".\Objects\reflash.obj",
-".\Objects\ADC0808.obj",
-".\Objects\DAC0832.obj",
-".\Objects\IO8155.obj",
-".\Objects\voltCalc.obj",
-".\Objects\delay.obj" 
-TO ".\Objects\ADC" 
+".\output\STARTUP.obj",
+".\output\main.obj",
+".\output\ADC0808.obj",
+".\output\DAC0832.obj",
+".\output\delay.obj",
+".\output\Init.obj",
+".\output\IO8155.obj",
+".\output\reflash.obj",
+".\output\voltCalc.obj" 
+TO ".\output\ADC" 
 PRINT(".\Listings\ADC.m51") RAMSIZE(256) 

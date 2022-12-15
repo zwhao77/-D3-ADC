@@ -14,7 +14,7 @@
       <TargetOption>
         <TargetCommonOption>
           <Device>AT89C52</Device>
-          <Vendor>Microchip</Vendor>
+          <Vendor>Atmel</Vendor>
           <Cpu>IRAM(0-0xFF) IROM(0-0x1FFF) CLOCK(24000000)</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile>"LIB\STARTUP.A51" ("Standard 8051 Startup Code")</StartupFile>
@@ -45,13 +45,13 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Objects\</OutputDirectory>
+          <OutputDirectory>.\output\</OutputDirectory>
           <OutputName>ADC</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
-          <DebugInformation>0</DebugInformation>
-          <BrowseInformation>0</BrowseInformation>
+          <DebugInformation>1</DebugInformation>
+          <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
           <HexFormatSelection>0</HexFormatSelection>
           <Merge32K>0</Merge32K>
@@ -125,7 +125,7 @@
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
           <Simulator>
-            <UseSimulator>0</UseSimulator>
+            <UseSimulator>1</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -137,7 +137,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
-            <UseTarget>1</UseTarget>
+            <UseTarget>0</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>0</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -149,7 +149,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>12</TargetSelection>
+          <TargetSelection>-1</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -163,7 +163,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\VDM51.DLL</Driver>
+            <Driver></Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -324,7 +324,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>.\src\ADC0808;.\src\DAC0832;.\src\delay;.\src\Init;.\src\IO8155;.\src\reflash;.\src\voltCalc</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -377,79 +377,54 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
+              <FileName>STARTUP.A51</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\STARTUP.A51</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>Init.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Init.c</FilePath>
-            </File>
-            <File>
-              <FileName>Init.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Init.h</FilePath>
-            </File>
-            <File>
-              <FileName>reflash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\reflash.c</FilePath>
-            </File>
-            <File>
-              <FileName>reflash.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\reflash.h</FilePath>
-            </File>
-            <File>
-              <FileName>delay.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\delay.h</FilePath>
+              <FilePath>.\src\main\main.c</FilePath>
             </File>
             <File>
               <FileName>ADC0808.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ADC0808.c</FilePath>
-            </File>
-            <File>
-              <FileName>ADC0808.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\ADC0808.h</FilePath>
+              <FilePath>.\src\ADC0808\ADC0808.c</FilePath>
             </File>
             <File>
               <FileName>DAC0832.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\DAC0832.c</FilePath>
-            </File>
-            <File>
-              <FileName>DAC0832.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\DAC0832.h</FilePath>
-            </File>
-            <File>
-              <FileName>IO8155.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\IO8155.c</FilePath>
-            </File>
-            <File>
-              <FileName>IO8155.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\IO8155.h</FilePath>
-            </File>
-            <File>
-              <FileName>voltCalc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\voltCalc.h</FilePath>
-            </File>
-            <File>
-              <FileName>voltCalc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\voltCalc.c</FilePath>
+              <FilePath>.\src\DAC0832\DAC0832.c</FilePath>
             </File>
             <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\delay.c</FilePath>
+              <FilePath>.\src\delay\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>Init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\Init\Init.c</FilePath>
+            </File>
+            <File>
+              <FileName>IO8155.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\IO8155\IO8155.c</FilePath>
+            </File>
+            <File>
+              <FileName>reflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\reflash\reflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>voltCalc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\voltCalc\voltCalc.c</FilePath>
+            </File>
+            <File>
+              <FileName>voltCalc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\voltCalc\voltCalc.h</FilePath>
             </File>
           </Files>
         </Group>
